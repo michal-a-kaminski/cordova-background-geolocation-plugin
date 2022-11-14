@@ -72,10 +72,10 @@ public final class SQLiteConfigurationContract {
                         ConfigurationEntry.COLUMN_NAME_HEADERS + TEXT_TYPE + COMMA_SEP +
                         ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS + INTEGER_TYPE + COMMA_SEP +
                         ConfigurationEntry.COLUMN_NAME_TEMPLATE + TEXT_TYPE +  COMMA_SEP +
-                        LocationEntry.COLUMN_NAME_ORDER_ID + INTEGER_TYPE +  COMMA_SEP +
-                        LocationEntry.COLUMN_NAME_USER_ID + INTEGER_TYPE +  COMMA_SEP +
-                        LocationEntry.COLUMN_NAME_ONGOING + INTEGER_TYPE +  COMMA_SEP +
-                        LocationEntry.COLUMN_NAME_PAUSED  + INTEGER_TYPE + 
+                        ConfigurationEntry.COLUMN_NAME_ORDER_ID + INTEGER_TYPE +  COMMA_SEP +
+                        ConfigurationEntry.COLUMN_NAME_USER_ID + INTEGER_TYPE +  COMMA_SEP +
+                        ConfigurationEntry.COLUMN_NAME_ONGOING + INTEGER_TYPE +  COMMA_SEP +
+                        ConfigurationEntry.COLUMN_NAME_PAUSED  + INTEGER_TYPE + 
                         " )";
 
         public static final String SQL_DROP_CONFIG_TABLE =

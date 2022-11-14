@@ -134,8 +134,8 @@ public class BackgroundLocation implements Parcelable {
         l.mockFlags = in.readInt();
         l.order_id = in.readInt();
         l.user_id = in.readInt();
-        l.ongoing =  in.readInt();
-        l.paused = in.readInt();
+        l.ongoing =  in.readInt()  != 0;
+        l.paused = in.readInt()  != 0;
         l.date =  in.readLong();
         l.status = in.readInt();
         l.extras = in.readBundle();
@@ -159,11 +159,11 @@ public class BackgroundLocation implements Parcelable {
         l.hasSpeed = location.hasSpeed();
         l.hasBearing = location.hasBearing();
         l.extras = location.getExtras();
-        l.order_id = this.order_id;
-        l.user_id = this.user_id;
-        l.ongoing = this.ongoing;
-        l.paused = this.paused;
-        l.date = this.date;
+        l.order_id = 0;
+        l.user_id = 0;
+        l.ongoing = false;
+        l.paused = false;
+        l.date = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             l.elapsedRealtimeNanos = location.getElapsedRealtimeNanos();
         }
@@ -209,8 +209,8 @@ public class BackgroundLocation implements Parcelable {
         l.setMockFlags(c.getInt((c.getColumnIndex(LocationEntry.COLUMN_NAME_MOCK_FLAGS))));
         l.setOrderId(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_ORDER_ID)));
         l.setUserId(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_USER_ID)));
-        l.setOngoing(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_ONGOING)));
-        l.setPaused(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_PAUSED)));
+        l.setOngoing(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_ONGOING)) == 1);
+        l.setPaused(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_PAUSED)) == 1);
         l.setDate(c.getLong(c.getColumnIndex(LocationEntry.COLUMN_NAME_DATE)));
         return l;
     }
@@ -241,11 +241,11 @@ public class BackgroundLocation implements Parcelable {
         dest.writeInt(hasBearing ? 1 : 0);
         dest.writeInt(hasRadius ? 1 : 0);
         dest.writeInt(mockFlags);
-        dest.wrtiteInt(order_id);
-        dest.wrtiteInt(user_id);
-        dest.wrtiteInt(ongoing);
-        dest.wrtiteInt(paused);
-        dest.wrtiteLong(date);
+        dest.writeInt(order_id);
+        dest.writeInt(user_id);
+        dest.writeInt(ongoing ? 1 : 0);
+        dest.writeInt(paused ? 1 : 0);
+        dest.writeLong(date);
         dest.writeInt(status);
         dest.writeBundle(extras);
     }
@@ -1028,7 +1028,7 @@ public class BackgroundLocation implements Parcelable {
             return hasMockLocationsEnabled() ? areMockLocationsEnabled() : JSONObject.NULL;
         }
         if ("@order_id".equals(key)) {
-            return order_id
+            return order_id;
         }
         if ("@user_id".equals(key)) {
             return user_id;

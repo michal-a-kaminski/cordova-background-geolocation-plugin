@@ -121,8 +121,6 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
                                 " ADD COLUMN " + ConfigurationEntry.COLUMN_NAME_ONGOING + INTEGER_TYPE);
                                 alterSql.add("ALTER TABLE " + ConfigurationEntry.TABLE_NAME +
                                 " ADD COLUMN " + ConfigurationEntry.COLUMN_NAME_PAUSED + INTEGER_TYPE);
-                                alterSql.add("ALTER TABLE " + ConfigurationEntry.TABLE_NAME +
-                                " ADD COLUMN " + ConfigurationEntry.COLUMN_NAME_DATE + INTEGER_TYPE);
                 break; // DO NOT FORGET TO MOVE DOWN BREAK ON DB UPGRADE!!!
             default:
                 onDowngrade(db, 0, 0);

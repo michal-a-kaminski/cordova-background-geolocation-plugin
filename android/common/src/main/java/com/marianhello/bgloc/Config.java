@@ -240,7 +240,7 @@ public class Config implements Parcelable
         out.writeString(getSyncUrl());
         out.writeInt(getSyncThreshold());
         out.writeInt(getMaxLocations());
-        out.wrtieInt(getOrderId());
+        out.writeInt(getOrderId());
         out.writeInt(getUserId());
         out.writeValue(getOngoing());
         out.writeValue(getPaused());

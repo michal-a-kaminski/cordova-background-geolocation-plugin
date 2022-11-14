@@ -37,8 +37,8 @@ public abstract class LocationTask extends Task {
         if (mLocation.hasMockLocationsEnabled()) params.putBoolean("mockLocationsEnabled", mLocation.areMockLocationsEnabled());
         params.putInt("order_id", mLocation.getOrderId());
         params.putInt("user_id", mLocation.getUserId());
-        params.putInt("ongoing", mLocation.getOngoing());
-        params.putInt("paused", mLocation.getPaused());
+        params.putBoolean("ongoing", mLocation.getOngoing());
+        params.putBoolean("paused", mLocation.getPaused());
         params.putLong("date", mLocation.getDate());
         bundle.putString("name", getName());
         bundle.putBundle("params", params);
