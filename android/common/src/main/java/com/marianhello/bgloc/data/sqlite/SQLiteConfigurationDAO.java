@@ -56,7 +56,11 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
       ConfigurationEntry.COLUMN_NAME_SYNC_THRESHOLD,
       ConfigurationEntry.COLUMN_NAME_HEADERS,
       ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS,
-      ConfigurationEntry.COLUMN_NAME_TEMPLATE
+      ConfigurationEntry.COLUMN_NAME_TEMPLATE,
+      ConfigurationEntry.COLUMN_NAME_ORDER_ID,
+      ConfigurationEntry.COLUMN_NAME_USER_ID,
+      ConfigurationEntry.COLUMN_NAME_ONGOING,
+      ConfigurationEntry.COLUMN_NAME_PAUSED
     };
 
     String whereClause = null;
@@ -123,7 +127,10 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     config.setHttpHeaders(new JSONObject(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_HEADERS))));
     config.setMaxLocations(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS)));
     config.setTemplate(LocationTemplateFactory.fromJSONString(c.getString(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_TEMPLATE))));
-
+    config.setOrderId(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_ORDER_ID)));
+    config.setUserId(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_USER_ID)));
+    config.setOngoing(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_ONGOING)));
+    config.setPaused(c.getInt(c.getColumnIndex(ConfigurationEntry.COLUMN_NAME_PAUSED)));
     return config;
   }
 
@@ -154,7 +161,10 @@ public class SQLiteConfigurationDAO implements ConfigurationDAO {
     values.put(ConfigurationEntry.COLUMN_NAME_HEADERS, new JSONObject(config.getHttpHeaders()).toString());
     values.put(ConfigurationEntry.COLUMN_NAME_MAX_LOCATIONS, config.getMaxLocations());
     values.put(ConfigurationEntry.COLUMN_NAME_TEMPLATE, config.hasTemplate() ? config.getTemplate().toString() : null);
-
+    values.put(ConfigurationEntry.COLUMN_NAME_ORDER_ID. config.getOrderId());
+    values.put(ConfigurationEntry.COLUMN_NAME_USER_ID, config.getUserId());
+    values.put(ConfigurationEntry.COLUMN_NAME_ONGOING, config.getOngoing() ? 1 : 0);
+    values.put(ConfigurationEntry.COLUMN_NAME_PAUSED, config.getPaused() ? 1 : 0);
     return values;
   }
 }

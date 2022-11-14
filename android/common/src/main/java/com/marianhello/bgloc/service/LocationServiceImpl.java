@@ -688,6 +688,12 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
     }
 
     private BackgroundLocation transformLocation(BackgroundLocation location) {
+        location.setOngoing(this.mConfig.ongoing);
+        location.setPaused(this.mConfig.paused);
+        location.setOrderId(this.mConfig.order_id);
+        location.setUserId(this.mConfig.user_id);
+        location.setDate(System.currentTimeMillis())
+        logger.info("Tranforming location", location.order_id);
         if (sLocationTransform != null) {
             return sLocationTransform.transformLocationBeforeCommit(this, location);
         }

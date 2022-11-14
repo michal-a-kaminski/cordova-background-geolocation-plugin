@@ -35,6 +35,11 @@ public final class SQLiteLocationContract {
         public static final String COLUMN_NAME_STATUS = "valid";
         public static final String COLUMN_NAME_BATCH_START_MILLIS = "batch_start";
         public static final String COLUMN_NAME_MOCK_FLAGS = "mock_flags";
+        public static final String COLUMN_NAME_ORDER_ID = "order_id";
+        public static final String COLUMN_NAME_USER_ID = "user_id";
+        public static final String COLUMN_NAME_PAUSED = "paused";
+        public static final String COLUMN_NAME_ONGOING = "ongoing";
+        public static final String COLUMN_NAME_DATE = "date";
 
         public static final String SQL_CREATE_LOCATION_TABLE =
                 "CREATE TABLE " + LocationEntry.TABLE_NAME + " (" +
@@ -56,7 +61,12 @@ public final class SQLiteLocationContract {
                         LocationEntry.COLUMN_NAME_LOCATION_PROVIDER + INTEGER_TYPE + COMMA_SEP +
                         LocationEntry.COLUMN_NAME_STATUS + INTEGER_TYPE + COMMA_SEP +
                         LocationEntry.COLUMN_NAME_BATCH_START_MILLIS + INTEGER_TYPE + COMMA_SEP +
-                        LocationEntry.COLUMN_NAME_MOCK_FLAGS + INTEGER_TYPE +
+                        LocationEntry.COLUMN_NAME_MOCK_FLAGS + INTEGER_TYPE +  COMMA_SEP +
+                        LocationEntry.COLUMN_NAME_ORDER_ID + INTEGER_TYPE +  COMMA_SEP +
+                        LocationEntry.COLUMN_NAME_USER_ID + INTEGER_TYPE +  COMMA_SEP +
+                        LocationEntry.COLUMN_NAME_ONGOING + INTEGER_TYPE +  COMMA_SEP +
+                        LocationEntry.COLUMN_NAME_PAUSED  + INTEGER_TYPE +  COMMA_SEP +
+                        LocationEntry.COLUMN_NAME_DATE  + INTEGER_TYPE +
                         " )";
 
         public static final String SQL_DROP_LOCATION_TABLE =
@@ -100,7 +110,12 @@ public final class SQLiteLocationContract {
                 COLUMN_NAME_LOCATION_PROVIDER,
                 COLUMN_NAME_STATUS,
                 COLUMN_NAME_BATCH_START_MILLIS,
-                COLUMN_NAME_MOCK_FLAGS
+                COLUMN_NAME_MOCK_FLAGS,
+                COLUMN_NAME_ORDER_ID,
+                COLUMN_NAME_USER_ID,
+                COLUMN_NAME_ONGOING,
+                COLUMN_NAME_PAUSED,
+                COLUMN_NAME_DATE
         };
     }
 }

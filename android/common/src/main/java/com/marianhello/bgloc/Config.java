@@ -63,6 +63,51 @@ public class Config implements Parcelable
     private HashMap httpHeaders;
     private Integer maxLocations;
     private LocationTemplate template;
+    private Integer order_id;
+    private Integer user_id;
+    private Boolean ongoing;
+    private Boolean paused;
+
+
+    public Integer getOrderId() {
+        return this.order_id;
+    }
+
+    public void setOrderId(Integer order_id) {
+        this.order_id = order_id;
+    }
+
+    public Integer getUserId() {
+        return this.user_id;
+    }
+
+    public void setUserId(Integer user_id) {
+        this.user_id = user_id;
+    }
+
+    public Boolean isOngoing() {
+        return this.ongoing;
+    }
+
+    public Boolean getOngoing() {
+        return this.ongoing;
+    }
+
+    public void setOngoing(Boolean ongoing) {
+        this.ongoing = ongoing;
+    }
+
+    public Boolean isPaused() {
+        return this.paused;
+    }
+
+    public Boolean getPaused() {
+        return this.paused;
+    }
+
+    public void setPaused(Boolean paused) {
+        this.paused = paused;
+    }
 
     public Config () {
     }
@@ -95,6 +140,10 @@ public class Config implements Parcelable
         if (config.template instanceof AbstractLocationTemplate) {
             this.template = ((AbstractLocationTemplate)config.template).clone();
         }
+        this.user_id = config.user_id;
+        this.order_id = config.order_id;
+        this.ongoing = config.ongoing;
+        this.paused = config.paused;
     }
 
     private Config(Parcel in) {
@@ -123,6 +172,10 @@ public class Config implements Parcelable
         Bundle bundle = in.readBundle();
         setHttpHeaders((HashMap<String, String>) bundle.getSerializable("httpHeaders"));
         setTemplate((LocationTemplate) bundle.getSerializable(AbstractLocationTemplate.BUNDLE_KEY));
+        setOrderId(in.readInt());
+        setUserId(in.readInt());
+        setOngoing((Boolean) in.readValue(null));
+        setPaused((Boolean) in.readValue(null));
     }
 
     public static Config getDefault() {
@@ -151,6 +204,10 @@ public class Config implements Parcelable
         config.httpHeaders = null;
         config.maxLocations = 10000;
         config.template = null;
+        config.order_id = null;
+        config.user_id = null;
+        config.ongoing = false;
+        config.paused = false;
 
         return config;
     }
@@ -183,6 +240,10 @@ public class Config implements Parcelable
         out.writeString(getSyncUrl());
         out.writeInt(getSyncThreshold());
         out.writeInt(getMaxLocations());
+        out.wrtieInt(getOrderId());
+        out.writeInt(getUserId());
+        out.writeValue(getOngoing());
+        out.writeValue(getPaused());
         Bundle bundle = new Bundle();
         bundle.putSerializable("httpHeaders", getHttpHeaders());
         bundle.putSerializable(AbstractLocationTemplate.BUNDLE_KEY, (AbstractLocationTemplate) getTemplate());
@@ -547,6 +608,10 @@ public class Config implements Parcelable
                 .append(" httpHeaders=").append(getHttpHeaders().toString())
                 .append(" maxLocations=").append(getMaxLocations())
                 .append(" postTemplate=").append(hasTemplate() ? getTemplate().toString() : null)
+                .append(" order_id=").append(getOrderId())
+                .append(" user_id=").append(getUserId())
+                .append(" ongoing=").append(getOngoing())
+                .append(" paused=").append(getPaused())
                 .append("]")
                 .toString();
     }

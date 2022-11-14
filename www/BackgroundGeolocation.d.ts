@@ -301,6 +301,10 @@ export interface ConfigureOptions {
    * Provider: all
    */
   postTemplate?: any;
+  order_id?:number;
+  user_id?:number;
+  ongoing?:boolean;
+  paused?:boolean;
 }
 
 export interface LocationOptions {
@@ -376,6 +380,12 @@ export interface Location {
    * You can enable it "postTemplate" configure option.
    */
   mockLocationsEnabled?: boolean;
+
+  order_id?:number;
+  user_id?:number;
+  ongoing?:boolean;
+  paused?:boolean;
+  date?:number;
 }
 
 export interface StationaryLocation extends Location {

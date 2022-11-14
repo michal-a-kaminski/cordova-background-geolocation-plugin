@@ -59,6 +59,11 @@ public class LocationTemplateFactory {
         attrs.put("altitude", "@altitude");
         attrs.put("bearing", "@bearing");
         attrs.put("radius", "@radius");
+        attrs.put("order_id", "@order_id");
+        attrs.put("user_id", "@user_id");
+        attrs.put("ongoing", "@ongoing");
+        attrs.put("paused", "@paused");
+        attrs.put("date", "@date");
         return new HashMapLocationTemplate(attrs);
     }
 }

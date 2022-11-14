@@ -299,6 +299,11 @@ public class SQLiteLocationDAO implements LocationDAO {
             .append(LocationEntry.COLUMN_NAME_BATCH_START_MILLIS).append("= ?,")
             .append(LocationEntry.COLUMN_NAME_STATUS).append("= ?,")
             .append(LocationEntry.COLUMN_NAME_MOCK_FLAGS).append("= ?")
+            .append(LocationEntry.COLUMN_NAME_ORDER_ID).append("= ?")
+            .append(LocationEntry.COLUMN_NAME_USER_ID).append("= ?")
+            .append(LocationEntry.COLUMN_NAME_ONGOING).append("= ?")
+            .append(LocationEntry.COLUMN_NAME_PAUSED).append("= ?")
+            .append(LocationEntry.COLUMN_NAME_DATE).append("= ?")
             .append(" WHERE ").append(LocationEntry._ID)
             .append("= ?")
             .toString();
@@ -321,6 +326,11 @@ public class SQLiteLocationDAO implements LocationDAO {
             location.getBatchStartMillis(),
             location.getStatus(),
             location.getMockFlags(),
+            location.getOrderId(),
+            location.getUserId(),
+            location.getOngoing() ? 1 : 0,
+            location.getPaused() ? 1 : 0,
+            location.getDate(),
             locationId
     });
 
@@ -439,6 +449,11 @@ public class SQLiteLocationDAO implements LocationDAO {
     l.setStatus(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_STATUS)));
     l.setLocationId(c.getLong(c.getColumnIndex(LocationEntry._ID)));
     l.setMockFlags(c.getInt((c.getColumnIndex(LocationEntry.COLUMN_NAME_MOCK_FLAGS))));
+    l.setOrderId(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_ORDER_ID)));
+    l.setUserId(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_USER_ID)));
+    l.setOngoing(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_ONGOING)));
+    l.setPaused(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_PAUSED)));
+    l.setDate(c.getLong(c.getColumnIndex(LocationEntry.COLUMN_NAME_DATE)));
 
     return l;
   }
@@ -463,7 +478,11 @@ public class SQLiteLocationDAO implements LocationDAO {
     values.put(LocationEntry.COLUMN_NAME_STATUS, l.getStatus());
     values.put(LocationEntry.COLUMN_NAME_BATCH_START_MILLIS, l.getBatchStartMillis());
     values.put(LocationEntry.COLUMN_NAME_MOCK_FLAGS, l.getMockFlags());
-
+    values.put(LocationEntry.COLUMN_NAME_ORDER_ID. l.getOrderId());
+    values.put(LocationEntry.COLUMN_NAME_USER_ID, l.getUserId());
+    values.put(LocationEntry.COLUMN_NAME_ONGOING, l.getOngoing() ? 1 : 0);
+    values.put(LocationEntry.COLUMN_NAME_PAUSED, l.getPaused() ? 1 : 0);
+    values.put(LocationEntry.COLUMN_NAME_DATE, l.getDate());
     return values;
   }
 
@@ -487,7 +506,12 @@ public class SQLiteLocationDAO implements LocationDAO {
             LocationEntry.COLUMN_NAME_LOCATION_PROVIDER,
             LocationEntry.COLUMN_NAME_STATUS,
             LocationEntry.COLUMN_NAME_BATCH_START_MILLIS,
-            LocationEntry.COLUMN_NAME_MOCK_FLAGS
+            LocationEntry.COLUMN_NAME_MOCK_FLAGS,
+            LocationEntry.COLUMN_NAME_ORDER_ID,
+            LocationEntry.COLUMN_NAME_USER_ID,
+            LocationEntry.COLUMN_NAME_ONGOING,
+            LocationEntry.COLUMN_NAME_PAUSED,
+            LocationEntry.COLUMN_NAME_DATE
     };
 
     return columns;

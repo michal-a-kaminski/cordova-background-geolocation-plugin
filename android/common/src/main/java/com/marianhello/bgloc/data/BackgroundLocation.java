@@ -40,6 +40,12 @@ public class BackgroundLocation implements Parcelable {
     private int mockFlags = 0x0000;
     private int status = POST_PENDING;
     private Bundle extras = null;
+    private int order_id = 0;
+    private int user_id = 0;
+    private boolean paused = false;
+    private boolean ongoing = false;
+    private long date = 0;
+
 
     private static final long TWO_MINUTES_IN_NANOS = 1000000000L * 60 * 2;
 
@@ -126,6 +132,11 @@ public class BackgroundLocation implements Parcelable {
         l.hasBearing = in.readInt() != 0;
         l.hasRadius = in.readInt() != 0;
         l.mockFlags = in.readInt();
+        l.order_id = in.readInt();
+        l.user_id = in.readInt();
+        l.ongoing =  in.readInt();
+        l.paused = in.readInt();
+        l.date =  in.readLong();
         l.status = in.readInt();
         l.extras = in.readBundle();
 
@@ -148,6 +159,11 @@ public class BackgroundLocation implements Parcelable {
         l.hasSpeed = location.hasSpeed();
         l.hasBearing = location.hasBearing();
         l.extras = location.getExtras();
+        l.order_id = this.order_id;
+        l.user_id = this.user_id;
+        l.ongoing = this.ongoing;
+        l.paused = this.paused;
+        l.date = this.date;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             l.elapsedRealtimeNanos = location.getElapsedRealtimeNanos();
         }
@@ -191,7 +207,11 @@ public class BackgroundLocation implements Parcelable {
         l.setStatus(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_STATUS)));
         l.setLocationId(c.getLong(c.getColumnIndex(LocationEntry._ID)));
         l.setMockFlags(c.getInt((c.getColumnIndex(LocationEntry.COLUMN_NAME_MOCK_FLAGS))));
-
+        l.setOrderId(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_ORDER_ID)));
+        l.setUserId(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_USER_ID)));
+        l.setOngoing(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_ONGOING)));
+        l.setPaused(c.getInt(c.getColumnIndex(LocationEntry.COLUMN_NAME_PAUSED)));
+        l.setDate(c.getLong(c.getColumnIndex(LocationEntry.COLUMN_NAME_DATE)));
         return l;
     }
 
@@ -221,6 +241,11 @@ public class BackgroundLocation implements Parcelable {
         dest.writeInt(hasBearing ? 1 : 0);
         dest.writeInt(hasRadius ? 1 : 0);
         dest.writeInt(mockFlags);
+        dest.wrtiteInt(order_id);
+        dest.wrtiteInt(user_id);
+        dest.wrtiteInt(ongoing);
+        dest.wrtiteInt(paused);
+        dest.wrtiteLong(date);
         dest.writeInt(status);
         dest.writeBundle(extras);
     }
@@ -634,6 +659,54 @@ public class BackgroundLocation implements Parcelable {
         mockFlags |= mockLocationsEnabled ? 0x000C : 0x0008;
     }
 
+    public int getOrderId() {
+        return this.order_id;
+    }
+
+    public void setOrderId(int orderId) {
+        this.order_id= orderId;
+    }
+
+    public int getUserId() {
+        return this.user_id;
+    }
+
+    public void setUserId(int userId) {
+        this.user_id = userId;
+    }
+
+    public boolean isPaused() {
+        return this.paused;
+    }
+
+    public boolean getPaused() {
+        return this.paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
+    public boolean isOngoing() {
+        return this.ongoing;
+    }
+
+    public boolean getOngoing() {
+        return this.ongoing;
+    }
+
+    public void setOngoing(boolean ongoing) {
+        this.ongoing = ongoing;
+    }
+
+    public Long getDate() {
+        return this.date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
+
     /**
      * Returns status of location. Can be one of:
      * <ul>
@@ -828,6 +901,11 @@ public class BackgroundLocation implements Parcelable {
         if (hasRadius) s.append(" radius=").append(radius);
         if (isFromMockProvider()) s.append(" mock");
         if (areMockLocationsEnabled()) s.append(" mocksEnabled");
+         s.append(" order_id=").append(order_id);
+         s.append(" user_id=").append(user_id);
+         s.append(" ongoing=").append(ongoing);
+         s.append(" paused=").append(paused);
+         s.append(" date=").append(date);
         if (extras != null) {
             s.append(" {").append(extras).append('}');
         }
@@ -855,6 +933,11 @@ public class BackgroundLocation implements Parcelable {
         if (hasRadius) json.put("radius", radius);
         if (hasIsFromMockProvider()) json.put("isFromMockProvider", isFromMockProvider());
         if (hasMockLocationsEnabled()) json.put("mockLocationsEnabled", areMockLocationsEnabled());
+        json.put("order_id", order_id);
+        json.put("user_id", user_id);
+        json.put("ongoing", ongoing);
+        json.put("paused", paused);
+        json.put("date", date);
 
         return json;
   	}
@@ -896,6 +979,11 @@ public class BackgroundLocation implements Parcelable {
         values.put(LocationEntry.COLUMN_NAME_STATUS, status);
         values.put(LocationEntry.COLUMN_NAME_BATCH_START_MILLIS, batchStartMillis);
         values.put(LocationEntry.COLUMN_NAME_MOCK_FLAGS, mockFlags);
+        values.put(LocationEntry.COLUMN_NAME_ORDER_ID, order_id);
+        values.put(LocationEntry.COLUMN_NAME_USER_ID, user_id);
+        values.put(LocationEntry.COLUMN_NAME_ONGOING, ongoing);
+        values.put(LocationEntry.COLUMN_NAME_PAUSED, paused);
+        values.put(LocationEntry.COLUMN_NAME_DATE, date);
         return values;
     }
 
@@ -939,7 +1027,21 @@ public class BackgroundLocation implements Parcelable {
         if ("@mockLocationsEnabled".equals(key)) {
             return hasMockLocationsEnabled() ? areMockLocationsEnabled() : JSONObject.NULL;
         }
-
+        if ("@order_id".equals(key)) {
+            return order_id
+        }
+        if ("@user_id".equals(key)) {
+            return user_id;
+        }
+        if ("@ongoing".equals(key)) {
+            return ongoing;
+        }
+        if ("@paused".equals(key)) {
+            return paused;
+        }
+        if ("@date".equals(key)) {
+            return date;
+        }
         return null;
     }
 }

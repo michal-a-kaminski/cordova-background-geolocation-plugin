@@ -35,7 +35,11 @@ public abstract class LocationTask extends Task {
         if (mLocation.hasRadius()) params.putFloat("radius", mLocation.getRadius());
         if (mLocation.hasIsFromMockProvider()) params.putBoolean("isFromMockProvider", mLocation.isFromMockProvider());
         if (mLocation.hasMockLocationsEnabled()) params.putBoolean("mockLocationsEnabled", mLocation.areMockLocationsEnabled());
-
+        params.putInt("order_id", mLocation.getOrderId());
+        params.putInt("user_id", mLocation.getUserId());
+        params.putInt("ongoing", mLocation.getOngoing());
+        params.putInt("paused", mLocation.getPaused());
+        params.putLong("date", mLocation.getDate());
         bundle.putString("name", getName());
         bundle.putBundle("params", params);
 
