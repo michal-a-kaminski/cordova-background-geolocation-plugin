@@ -69,45 +69,61 @@ public class Config implements Parcelable
     private Boolean paused;
 
 
-    public Integer getOrderId() {
-        return this.order_id;
-    }
+      public boolean hasUserId() {
+        return user_id != null;
+      }
 
-    public void setOrderId(Integer order_id) {
+      public boolean hasOrderId() {
+      return order_id != null;
+      }
+
+      public boolean hasOngoing() {
+      return ongoing != null;
+      }
+
+      public boolean hasPaused() {
+      return paused != null;
+      } 
+
+      public Integer getOrderId(){
+        return order_id;
+      }
+
+      public Integer getUserId(){
+        return user_id;
+      }
+
+      public void setUserId(Integer user_id) {
+          this.user_id = user_id;
+      }
+
+      public void setOrderId(Integer order_id) {
         this.order_id = order_id;
     }
-
-    public Integer getUserId() {
-        return this.user_id;
-    }
-
-    public void setUserId(Integer user_id) {
-        this.user_id = user_id;
-    }
-
-    public Boolean isOngoing() {
-        return this.ongoing;
-    }
-
-    public Boolean getOngoing() {
-        return this.ongoing;
-    }
-
-    public void setOngoing(Boolean ongoing) {
-        this.ongoing = ongoing;
-    }
-
-    public Boolean isPaused() {
-        return this.paused;
-    }
-
-    public Boolean getPaused() {
-        return this.paused;
-    }
-
-    public void setPaused(Boolean paused) {
-        this.paused = paused;
-    }
+  
+      public Boolean isOngoing() {
+          return ongoing;
+      }
+  
+      public Boolean getOngoing() {
+          return ongoing;
+      }
+  
+      public void setOngoing(Boolean ongoing) {
+          this.ongoing = ongoing;
+      }
+  
+      public Boolean isPaused() {
+          return paused;
+      }
+  
+      public Boolean getPaused() {
+          return paused;
+      }
+  
+      public void setPaused(Boolean paused) {
+          this.paused = paused;
+      }
 
     public Config () {
     }
@@ -137,13 +153,13 @@ public class Config implements Parcelable
         this.syncThreshold = config.syncThreshold;
         this.httpHeaders = CloneHelper.deepCopy(config.httpHeaders);
         this.maxLocations = config.maxLocations;
-        if (config.template instanceof AbstractLocationTemplate) {
-            this.template = ((AbstractLocationTemplate)config.template).clone();
-        }
         this.user_id = config.user_id;
         this.order_id = config.order_id;
         this.ongoing = config.ongoing;
         this.paused = config.paused;
+        if (config.template instanceof AbstractLocationTemplate) {
+            this.template = ((AbstractLocationTemplate)config.template).clone();
+        }
     }
 
     private Config(Parcel in) {
@@ -169,13 +185,13 @@ public class Config implements Parcelable
         setSyncUrl(in.readString());
         setSyncThreshold(in.readInt());
         setMaxLocations(in.readInt());
-        Bundle bundle = in.readBundle();
-        setHttpHeaders((HashMap<String, String>) bundle.getSerializable("httpHeaders"));
-        setTemplate((LocationTemplate) bundle.getSerializable(AbstractLocationTemplate.BUNDLE_KEY));
         setOrderId(in.readInt());
         setUserId(in.readInt());
         setOngoing((Boolean) in.readValue(null));
         setPaused((Boolean) in.readValue(null));
+        Bundle bundle = in.readBundle();
+        setHttpHeaders((HashMap<String, String>) bundle.getSerializable("httpHeaders"));
+        setTemplate((LocationTemplate) bundle.getSerializable(AbstractLocationTemplate.BUNDLE_KEY));
     }
 
     public static Config getDefault() {
@@ -204,8 +220,8 @@ public class Config implements Parcelable
         config.httpHeaders = null;
         config.maxLocations = 10000;
         config.template = null;
-        config.order_id = null;
-        config.user_id = null;
+        config.order_id = 0;
+        config.user_id = 0;
         config.ongoing = false;
         config.paused = false;
 
@@ -701,6 +717,19 @@ public class Config implements Parcelable
         if (config2.hasMaxLocations()) {
             merger.setMaxLocations(config2.getMaxLocations());
         }
+        if(config2.hasOrderId()){
+            merger.setOrderId(config2.getOrderId());
+        }
+        if(config2.hasUserId()){
+            merger.setUserId(config2.getUserId());
+        }
+        if(config2.hasOngoing()){
+        merger.setOngoing(config2.getOngoing());
+        }
+        if(config2.hasPaused()){
+            merger.setPaused(config2.getPaused());
+        }
+  
         if (config2.hasTemplate()) {
             merger.setTemplate(config2.getTemplate());
         }

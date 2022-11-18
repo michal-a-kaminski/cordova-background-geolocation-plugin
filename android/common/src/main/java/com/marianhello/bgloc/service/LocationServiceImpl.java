@@ -276,13 +276,17 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
         }
 
         boolean containsCommand = containsCommand(intent);
-        logger.debug(
-                String.format("Service in [%s] state. cmdId: [%s]. startId: [%d]",
-                        sIsRunning ? "STARTED" : "NOT STARTED",
-                        containsCommand ? getCommand(intent).getId() : "N/A",
-                        startId)
-        );
-
+        try{
+            logger.debug(
+              String.format("Service in [%s] state. cmdId: [%s]. startId: [%d]",
+                sIsRunning ? "STARTED" : "NOT STARTED",
+                containsCommand ? getCommand(intent).getId() : "N/A",
+                startId)
+            );
+          } catch (ClassCastException e){
+            logger.info("Error parsing isRunning string");
+          }
+    
         if (containsCommand) {
             LocationServiceIntentBuilder.Command cmd = getCommand(intent);
             processCommand(cmd.getId(), cmd.getArgument());
@@ -688,12 +692,16 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
     }
 
     private BackgroundLocation transformLocation(BackgroundLocation location) {
-        location.setOngoing(this.mConfig.getOngoing());
-        location.setPaused(this.mConfig.getPaused());
-        location.setOrderId(this.mConfig.getOrderId());
-        location.setUserId(this.mConfig.getUserId());
-        location.setDate(System.currentTimeMillis());
-        logger.info("Tranforming location", location.getOrderId());
+        if(mConfig != null) {
+            location.setOngoing(this.mConfig.getOngoing());
+            location.setPaused(this.mConfig.getPaused());
+            location.setOrderId(this.mConfig.getOrderId());
+            location.setUserId(this.mConfig.getUserId());
+            location.setDate(System.currentTimeMillis());
+            logger.info("Tranforming location");
+          } else {
+            logger.info("No config to transform location");
+          }
         if (sLocationTransform != null) {
             return sLocationTransform.transformLocationBeforeCommit(this, location);
         }
