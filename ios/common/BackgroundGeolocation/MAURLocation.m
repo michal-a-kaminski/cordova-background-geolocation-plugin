@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MAURLocation.h"
-
+#import "MAURConfig.h"
 enum {
     TWO_MINUTES = 120,
     MAX_SECONDS_FROM_NOW = 86400
@@ -21,7 +21,7 @@ enum {
 
 @implementation MAURLocationMapper
 MAURLocation* _location;
-
+MAURConfig *_config;
 - (id) mapValue:(id)value
 {
     if ([value isKindOfClass:[NSString class]]) {
@@ -70,8 +70,7 @@ MAURLocation* _location;
 
 @implementation MAURLocation
 
-@synthesize locationId, time, accuracy, altitudeAccuracy, speed, heading, altitude, latitude, longitude, provider, locationProvider, radius, isValid, recordedAt;
-
+@synthesize locationId, time, accuracy, altitudeAccuracy, speed, heading, altitude, latitude, longitude, provider, locationProvider, radius, isValid, ongoing, paused, userId, orderId, recordedAt;
 + (instancetype) fromCLLocation:(CLLocation*)location;
 {
     MAURLocation *instance = [[MAURLocation alloc] init];
@@ -116,8 +115,29 @@ MAURLocation* _location;
     self = [super init];
     if (self != nil) {
         [self commonInit];
+    } else {
+        MAURConfig *config = [self getConfig];
+        if(config.hasOngoing){
+            ongoing = config.ongoing;
+        } else {
+            ongoing = nil;
+        }
+        if(config.hasPaused){
+            paused = config.paused;
+        } else {
+            paused =  nil;
+        }
+        if(config.hasUserId){
+            userId = config.user_id;
+        } else {
+            userId = nil;
+        }
+        if(config.hasOrderId){
+            orderId = config.order_id;
+        } else {
+            orderId = nil;
+        }
     }
-
     return self;
 }
 
@@ -125,6 +145,20 @@ MAURLocation* _location;
 {
     isValid = true;
 }
+
+- (MAURConfig*) getConfig
+{
+    if (_config == nil) {
+        MAURSQLiteConfigurationDAO* configDAO = [MAURSQLiteConfigurationDAO sharedInstance];
+        _config = [configDAO retrieveConfiguration];
+        if (_config == nil) {
+            _config = [[MAURConfig alloc] initWithDefaults];
+        }
+    }
+    
+    return _config;
+}
+
 
 /*
  * Age of location measured from now in seconds
@@ -147,7 +181,7 @@ MAURLocation* _location;
 
 - (NSMutableDictionary*) toDictionary
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:13];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:17];
 
     if (time != nil) [dict setObject:[NSNumber numberWithDouble:([time timeIntervalSince1970] * 1000)] forKey:@"time"];
     if (accuracy != nil) [dict setObject:accuracy forKey:@"accuracy"];
@@ -161,6 +195,10 @@ MAURLocation* _location;
     if (provider != nil) [dict setObject:provider forKey:@"provider"];
     if (locationProvider != nil) [dict setObject:locationProvider forKey:@"locationProvider"];
     if (radius != nil) [dict setObject:radius forKey:@"radius"];
+    if (ongoing != nil)  [dict setObject:ongoing forKey:@"ongoing"];
+    if (paused != nil)  [dict setObject:paused forKey:@"paused"];
+    if (userId != nil)  [dict setObject:userId forKey:@"userId"];
+    if (orderId != nil) [dict setObject:orderId forKey:@"orderId"];
     if (recordedAt != nil) [dict setObject:[NSNumber numberWithDouble:([recordedAt timeIntervalSince1970] * 1000)] forKey:@"recordedAt"];
 
     return dict;
@@ -207,6 +245,18 @@ MAURLocation* _location;
     }
     if ([key isEqualToString:@"@locationProvider"]) {
         return locationProvider;
+    }
+    if ([key isEqualToString:@"@ongoing"]) {
+        return ongoing;
+    }
+    if ([key isEqualToString:@"@paused"]) {
+        return paused;
+    }
+    if ([key isEqualToString:@"@userId"]) {
+        return userId;
+    }
+    if ([key isEqualToString:@"@orderId"]) {
+        return orderId;
     }
     if ([key isEqualToString:@"@radius"]) {
         return radius;
@@ -341,6 +391,10 @@ MAURLocation* _location;
         copy.locationProvider = locationProvider;
         copy.radius = radius;
         copy.isValid = isValid;
+        copy.ongoing = ongoing;
+        copy.paused = paused;
+        copy.userId = userId;
+        copy.orderId = order_id
     }
 
     return copy;

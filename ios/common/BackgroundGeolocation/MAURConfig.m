@@ -12,7 +12,7 @@
 
 @implementation MAURConfig 
 
-@synthesize stationaryRadius, distanceFilter, desiredAccuracy, _debug, activityType, activitiesInterval, _stopOnTerminate, url, syncUrl, syncThreshold, httpHeaders, _saveBatteryOnBackground, maxLocations, _pauseLocationUpdates, locationProvider, _template;
+@synthesize stationaryRadius, distanceFilter, desiredAccuracy, _debug, activityType, activitiesInterval, _stopOnTerminate, url, syncUrl, syncThreshold, httpHeaders, _saveBatteryOnBackground, maxLocations, _pauseLocationUpdates, locationProvider, _template, ongoing, puased, order_id, user_id;
 
 -(instancetype) initWithDefaults {
     self = [super init];
@@ -30,9 +30,13 @@
     _stopOnTerminate = [NSNumber numberWithBool:YES];
     _saveBatteryOnBackground = [NSNumber numberWithBool:NO];
     maxLocations = [NSNumber numberWithInt:10000];
-    syncThreshold = [NSNumber numberWithInt:100];
+    syncThreshold  [NSNumber numberWithInt:100];
     _pauseLocationUpdates = [NSNumber numberWithBool:NO];
     locationProvider = [NSNumber numberWithInt:DISTANCE_FILTER_PROVIDER];
+    ongoing = [NSNumber numberWithBool:NO];
+    paused = [NSNumber numberWithBool:NO];
+    user_id = [NSNumber numberWithInt:INT_MAX];
+    order_id = [NSNumber numberWithInt:INT_MAX];
 //    template =
     
     return self;
@@ -89,6 +93,18 @@
     }
     if (config[@"postTemplate"] != nil) {
         instance._template = config[@"postTemplate"];
+    }
+    if (config[@"ongoing"] != nil) {
+        instance.ongoing = config[@"ongoing"];
+    }
+    if (config[@"paused"] != nil) {
+        instance.paused = config[@"paused"];
+    }
+    if (config[@"user_id"] != nil) {
+        instance.user_id = config[@"user_id"];
+    }
+    if (config[@"order_id"] != nil) {
+        instance.order_id = config[@"order_id"];
     }
 
     return instance;
@@ -154,6 +170,18 @@
     if ([newConfig hasTemplate]) {
         merger._template = newConfig._template;
     }
+    if ([newConfig hasOngoing]) {
+        merger.ongoing = newConfig.ongoing;
+    }
+      if ([newConfig hasPaused]) {
+        merger.paused = newConfig.paused;
+    }
+    if ([newConfig hasOrderId]) {
+        merger.order_id = newConfig.order_id;
+    }
+    if ([newConfig hasUserId]) {
+        merger.user_id = newConfig.user_id;
+    }
 
     return merger;
 }
@@ -178,6 +206,10 @@
         copy._pauseLocationUpdates = _pauseLocationUpdates;
         copy.locationProvider = locationProvider;
         copy._template = _template;
+        copy.ongoing = ongoing;
+        copy.paused = paused;
+        copy.user_id = user_id;
+        copy.order_id = order_id;
     }
     
     return copy;
@@ -322,6 +354,26 @@
 - (BOOL) hasTemplate
 {
     return _template != nil;
+}
+
+- (BOOL) hasOngoing
+{
+    return ongoing != nil;
+}
+
+- (BOOL) hasPaused
+{
+    return paused != nil;
+}
+
+- (BOOL) hasOrderId
+{
+    return order_id != nil;
+}
+
+- (BOOL) hasUserId
+{
+    return user_id != nil;
 }
 
 - (void) set_template:(NSObject*)template

@@ -10,6 +10,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "MAURConfig.h"
 
 @class MAURLocation;
 
@@ -36,8 +37,12 @@ typedef NS_ENUM(NSInteger, MAURLocationStatus) {
 @property (nonatomic, retain) NSNumber *locationProvider;
 @property (nonatomic, retain) NSNumber *radius; //only for stationary locations
 @property (nonatomic) BOOL isValid;
+@property (nonatomic, retain) BOOL *ongoing;
+@property (nonatomic, retain) BOOL *paused;
+@property (nonatomic, retain) NSNumber *userId;
+@property (nonatomic, retain) NSNumber *orderId;
 @property (nonatomic, retain) NSDate *recordedAt;
-
+- (MAURConfig*) getConfig;
 + (instancetype) fromCLLocation:(CLLocation*)location;
 + (NSTimeInterval) locationAge:(CLLocation*)location;
 + (NSMutableDictionary*) toDictionary:(CLLocation*)location;

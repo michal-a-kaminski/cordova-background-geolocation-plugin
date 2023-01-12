@@ -35,6 +35,10 @@ enum {
 @property NSNumber *_pauseLocationUpdates;
 @property NSNumber *locationProvider;
 @property NSObject *_template;
+@property NSNumber *ongoing;
+@property NSNumber *paused;
+@property NSNumber *user_id;
+@property NSNumber *order_id;
 
 - (instancetype) initWithDefaults;
 + (instancetype) fromDictionary:(NSDictionary*)config;
@@ -63,6 +67,10 @@ enum {
 - (BOOL) stopOnTerminate;
 - (BOOL) saveBatteryOnBackground;
 - (BOOL) pauseLocationUpdates;
+- (BOOL) hasOngoing;
+- (BOOL) hasPaused;
+- (BOOL) hasUserId;
+- (BOOL) hasOrderId;
 - (CLActivityType) decodeActivityType;
 - (NSInteger) decodeDesiredAccuracy;
 - (NSString*) getHttpHeadersAsString:(NSError * __autoreleasing *)outError;

@@ -37,6 +37,10 @@
 #define CC_COLUMN_NAME_SAVE_BATTERY           "save_battery"
 #define CC_COLUMN_NAME_MAX_LOCATIONS          "max_locations"
 #define CC_COLUMN_NAME_PAUSE_LOCATION_UPDATES "pause_updates"
+#define CC_COLUMN_NAME_ONGOING                "ongoing"
+#define CC_COLUMN_NAME_PAUSED                 "paused"
+#define CC_COLUMN_NAME_USER_ID                "user_id"
+#define CC_COLUMN_NAME_ORDER_ID               "order_id"
 #define CC_COLUMN_NAME_TEMPLATE               "template"
 #define CC_COLUMN_NAME_LAST_UPDATED_AT        "updated_at"
 

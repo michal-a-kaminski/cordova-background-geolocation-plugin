@@ -22,6 +22,10 @@
 #define LC_COLUMN_NAME_PROVIDER            "provider"
 #define LC_COLUMN_NAME_LOCATION_PROVIDER   "service_provider"
 #define LC_COLUMN_NAME_STATUS              "valid"
+#define LC_COLUMN_NAME_PAUSED              "paused"
+#define LC_COLUMN_NAME_ONGOING             "ongoing"
+#define LC_COLUMN_NAME_USER_ID             "userId"
+#define LC_COLUMN_NAME_ORDER_ID            "orderId"
 #define LC_COLUMN_NAME_RECORDED_AT         "recorded_at"
 
 @interface MAURLocationContract : NSObject

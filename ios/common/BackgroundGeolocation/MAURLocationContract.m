@@ -26,6 +26,10 @@
         @{ @"name": @LC_COLUMN_NAME_PROVIDER, @"type": [SQLColumnType sqlColumnWithType: kText]},
         @{ @"name": @LC_COLUMN_NAME_LOCATION_PROVIDER, @"type": [SQLColumnType sqlColumnWithType: kText]},
         @{ @"name": @LC_COLUMN_NAME_STATUS, @"type": [SQLColumnType sqlColumnWithType: kInteger]},
+        @{ @"name": @LC_COLUMN_NAME_PAUSED, @"type": [SQLColumnType sqlColumnWithType: kReal]}
+        @{ @"name": @LC_COLUMN_NAME_ONGOING, @"type": [SQLColumnType sqlColumnWithType: kReal]}
+        @{ @"name": @LC_COLUMN_NAME_USER_ID, @"type": [SQLColumnType sqlColumnWithType: kReal]}
+        @{ @"name": @LC_COLUMN_NAME_ORDER_ID, @"type": [SQLColumnType sqlColumnWithType: kReal]}
         @{ @"name": @LC_COLUMN_NAME_RECORDED_AT, @"type": [SQLColumnType sqlColumnWithType: kInteger]}
     ];
     
