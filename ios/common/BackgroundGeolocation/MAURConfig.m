@@ -11,9 +11,7 @@
 #define isNotNull(value) (value != nil && value != (id)[NSNull null])
 
 @implementation MAURConfig 
-
-@synthesize stationaryRadius, distanceFilter, desiredAccuracy, _debug, activityType, activitiesInterval, _stopOnTerminate, url, syncUrl, syncThreshold, httpHeaders, _saveBatteryOnBackground, maxLocations, _pauseLocationUpdates, locationProvider, _template, ongoing, puased, order_id, user_id;
-
+@synthesize stationaryRadius, distanceFilter, desiredAccuracy, _debug, activityType, activitiesInterval, _stopOnTerminate, url, syncUrl, syncThreshold, httpHeaders, _saveBatteryOnBackground, maxLocations, _pauseLocationUpdates, locationProvider, _template, ongoing, paused, order_id, user_id;
 -(instancetype) initWithDefaults {
     self = [super init];
     
@@ -30,7 +28,7 @@
     _stopOnTerminate = [NSNumber numberWithBool:YES];
     _saveBatteryOnBackground = [NSNumber numberWithBool:NO];
     maxLocations = [NSNumber numberWithInt:10000];
-    syncThreshold  [NSNumber numberWithInt:100];
+    syncThreshold = [NSNumber numberWithInt:100];
     _pauseLocationUpdates = [NSNumber numberWithBool:NO];
     locationProvider = [NSNumber numberWithInt:DISTANCE_FILTER_PROVIDER];
     ongoing = [NSNumber numberWithBool:NO];

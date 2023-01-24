@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "MAURLocation.h"
 #import "MAURConfig.h"
+#import "MAURSQLiteConfigurationDAO.h"
 enum {
     TWO_MINUTES = 120,
     MAX_SECONDS_FROM_NOW = 86400
@@ -195,8 +196,8 @@ MAURConfig *_config;
     if (provider != nil) [dict setObject:provider forKey:@"provider"];
     if (locationProvider != nil) [dict setObject:locationProvider forKey:@"locationProvider"];
     if (radius != nil) [dict setObject:radius forKey:@"radius"];
-    if (ongoing != nil)  [dict setObject:ongoing forKey:@"ongoing"];
-    if (paused != nil)  [dict setObject:paused forKey:@"paused"];
+    if (ongoing != nil)  [dict setObject:[NSNumber numberWithBool:ongoing]  forKey:@"ongoing"];
+    if (paused != nil)  [dict setObject:[NSNumber numberWithBool:paused] forKey:@"paused"];
     if (userId != nil)  [dict setObject:userId forKey:@"userId"];
     if (orderId != nil) [dict setObject:orderId forKey:@"orderId"];
     if (recordedAt != nil) [dict setObject:[NSNumber numberWithDouble:([recordedAt timeIntervalSince1970] * 1000)] forKey:@"recordedAt"];
@@ -247,10 +248,10 @@ MAURConfig *_config;
         return locationProvider;
     }
     if ([key isEqualToString:@"@ongoing"]) {
-        return ongoing;
+        return [NSNumber numberWithBool:ongoing] ;
     }
     if ([key isEqualToString:@"@paused"]) {
-        return paused;
+        return [NSNumber numberWithBool:paused] ;
     }
     if ([key isEqualToString:@"@userId"]) {
         return userId;
@@ -394,7 +395,7 @@ MAURConfig *_config;
         copy.ongoing = ongoing;
         copy.paused = paused;
         copy.userId = userId;
-        copy.orderId = order_id
+        copy.orderId = orderId;
     }
 
     return copy;

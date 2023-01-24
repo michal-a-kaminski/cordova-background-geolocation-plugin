@@ -21,9 +21,10 @@ typedef NS_ENUM(NSInteger, MAURLocationStatus) {
     MAURLocationPostPending = 1,
     MAURLocationSyncPending = 2,
 };
-
-@interface MAURLocation : NSObject <NSCopying>
-
+@interface MAURLocation : NSObject <NSCopying>{
+BOOL ongoing;
+BOOL paused;
+}
 @property (nonatomic, retain) NSNumber *locationId;
 @property (nonatomic, retain) NSDate *time;
 @property (nonatomic, retain) NSNumber *accuracy;
@@ -37,8 +38,8 @@ typedef NS_ENUM(NSInteger, MAURLocationStatus) {
 @property (nonatomic, retain) NSNumber *locationProvider;
 @property (nonatomic, retain) NSNumber *radius; //only for stationary locations
 @property (nonatomic) BOOL isValid;
-@property (nonatomic, retain) BOOL *ongoing;
-@property (nonatomic, retain) BOOL *paused;
+@property (nonatomic) BOOL ongoing;
+@property (nonatomic) BOOL paused;
 @property (nonatomic, retain) NSNumber *userId;
 @property (nonatomic, retain) NSNumber *orderId;
 @property (nonatomic, retain) NSDate *recordedAt;
