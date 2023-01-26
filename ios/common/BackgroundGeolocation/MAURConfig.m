@@ -528,8 +528,7 @@
 
 - (NSString *) description
 {
-    return [NSString stringWithFormat:@"Config: distanceFilter=%@ stationaryRadius=%@ desiredAccuracy=%@ activityType=%@ activitiesInterval=%@ isDebugging=%@ stopOnTerminate=%@ url=%@ syncThreshold=%@ maxLocations=%@ httpHeaders=%@ pauseLocationUpdates=%@ saveBatteryOnBackground=%@ locationProvider=%@ postTemplate=%@", self.distanceFilter, self.stationaryRadius, self.desiredAccuracy, self.activityType, self.activitiesInterval, self._debug, self._stopOnTerminate, self.url, self.syncThreshold, self.maxLocations, self.httpHeaders, self._pauseLocationUpdates, self._saveBatteryOnBackground, self.locationProvider, self._template];
-
+    return [NSString stringWithFormat:@"Config: distanceFilter=%@ stationaryRadius=%@ desiredAccuracy=%@ activityType=%@ activitiesInterval=%@ isDebugging=%@ stopOnTerminate=%@ url=%@ syncThreshold=%@ maxLocations=%@ httpHeaders=%@ pauseLocationUpdates=%@ saveBatteryOnBackground=%@ locationProvider=%@ postTemplate=%@ orderId=%@ userId=%@ ongoing=%@ paused=%@", self.distanceFilter, self.stationaryRadius, self.desiredAccuracy, self.activityType, self.activitiesInterval, self._debug, self._stopOnTerminate, self.url, self.syncThreshold, self.maxLocations, self.httpHeaders, self._pauseLocationUpdates, self._saveBatteryOnBackground, self.locationProvider, self._template, self.order_id, self.user_id, self.ongoing, self.paused];
 }
 
 @end

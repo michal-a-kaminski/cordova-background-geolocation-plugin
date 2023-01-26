@@ -114,30 +114,35 @@ MAURConfig *_config;
 - (instancetype) init
 {
     self = [super init];
+    NSLog(@"Loading config to location");
+    MAURConfig *config = [self getConfig];
+    NSLog(@"%@", config);
+    if(config.hasOngoing){
+        ongoing = [config.ongoing boolValue];
+        NSLog(@"ongoing");
+        NSLog(@"%d", ongoing);
+    } else {
+        ongoing = nil;
+    }
+    if(config.hasPaused){
+        paused = [config.paused boolValue];
+        NSLog(@"paused");
+        NSLog(@"%d",  paused);
+    } else {
+        paused =  nil;
+    }
+    if(config.hasUserId){
+        userId = config.user_id;
+    } else {
+        userId = nil;
+    }
+    if(config.hasOrderId){
+        orderId = config.order_id;
+    } else {
+        orderId = nil;
+    }
     if (self != nil) {
         [self commonInit];
-    } else {
-        MAURConfig *config = [self getConfig];
-        if(config.hasOngoing){
-            ongoing = config.ongoing;
-        } else {
-            ongoing = nil;
-        }
-        if(config.hasPaused){
-            paused = config.paused;
-        } else {
-            paused =  nil;
-        }
-        if(config.hasUserId){
-            userId = config.user_id;
-        } else {
-            userId = nil;
-        }
-        if(config.hasOrderId){
-            orderId = config.order_id;
-        } else {
-            orderId = nil;
-        }
     }
     return self;
 }
