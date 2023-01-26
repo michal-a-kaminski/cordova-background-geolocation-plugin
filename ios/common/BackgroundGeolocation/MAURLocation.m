@@ -154,13 +154,11 @@ MAURConfig *_config;
 
 - (MAURConfig*) getConfig
 {
-    if (_config == nil) {
         MAURSQLiteConfigurationDAO* configDAO = [MAURSQLiteConfigurationDAO sharedInstance];
         _config = [configDAO retrieveConfiguration];
         if (_config == nil) {
             _config = [[MAURConfig alloc] initWithDefaults];
         }
-    }
     
     return _config;
 }
