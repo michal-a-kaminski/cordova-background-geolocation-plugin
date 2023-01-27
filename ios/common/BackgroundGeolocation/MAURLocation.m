@@ -155,8 +155,13 @@ MAURConfig *_config;
 - (MAURConfig*) getConfig
 {
         MAURSQLiteConfigurationDAO* configDAO = [MAURSQLiteConfigurationDAO sharedInstance];
-        _config = [configDAO retrieveConfiguration];
+        MAURConfig* retConfig  = [configDAO retrieveConfiguration];
+        if( retConfig != nil){
+            NSLog(@"Using saved dao config");
+            _config = retConfig;
+        }
         if (_config == nil) {
+            NSLog(@"Using DEFAULT config Something may have gone Wrong");
             _config = [[MAURConfig alloc] initWithDefaults];
         }
     
