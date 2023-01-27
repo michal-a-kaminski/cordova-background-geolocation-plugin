@@ -138,9 +138,12 @@
     @COMMA_SEP @LC_COLUMN_NAME_PROVIDER
     @COMMA_SEP @LC_COLUMN_NAME_LOCATION_PROVIDER
     @COMMA_SEP @LC_COLUMN_NAME_STATUS
+    @COMMA_SEP @LC_COLUMN_NAME_PAUSED
+    @COMMA_SEP @LC_COLUMN_NAME_ONGOING
+    @COMMA_SEP @LC_COLUMN_NAME_USER_ID
+    @COMMA_SEP @LC_COLUMN_NAME_ORDER_ID
     @COMMA_SEP @LC_COLUMN_NAME_RECORDED_AT
-    @") VALUES (?,?,?,?,?,?,?,?,?,?,?)";
-
+    @") VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     BOOL success = [database executeUpdate:sql,
         [NSNumber numberWithDouble:[location.time timeIntervalSince1970]],
         location.accuracy,
@@ -222,6 +225,10 @@
         @COMMA_SEP @LC_COLUMN_NAME_PROVIDER @EQ_BIND
         @COMMA_SEP @LC_COLUMN_NAME_LOCATION_PROVIDER @EQ_BIND
         @COMMA_SEP @LC_COLUMN_NAME_STATUS @EQ_BIND
+        @COMMA_SEP @LC_COLUMN_NAME_PAUSED @EQ_BIND
+        @COMMA_SEP @LC_COLUMN_NAME_ONGOING @EQ_BIND
+        @COMMA_SEP @LC_COLUMN_NAME_USER_ID @EQ_BIND
+        @COMMA_SEP @LC_COLUMN_NAME_ORDER_ID @EQ_BIND
         @COMMA_SEP @LC_COLUMN_NAME_RECORDED_AT @EQ_BIND
         @" WHERE " @LC_COLUMN_NAME_ID @EQ_BIND;
 
@@ -236,6 +243,10 @@
             location.provider ?: [NSNull null],
             location.locationProvider ?: [NSNull null],
             location.isValid == YES ? @(1) : @(0),
+            location.paused,
+            location.ongoing,
+            location.userId,
+            location.orderId,
             recordedAt,
             locationId
         ];
@@ -347,6 +358,10 @@
     @COMMA_SEP @LC_COLUMN_NAME_PROVIDER
     @COMMA_SEP @LC_COLUMN_NAME_LOCATION_PROVIDER
     @COMMA_SEP @LC_COLUMN_NAME_STATUS
+    @COMMA_SEP @LC_COLUMN_NAME_PAUSED
+    @COMMA_SEP @LC_COLUMN_NAME_ONGOING
+    @COMMA_SEP @LC_COLUMN_NAME_USER_ID
+    @COMMA_SEP @LC_COLUMN_NAME_ORDER_ID
     @COMMA_SEP @LC_COLUMN_NAME_RECORDED_AT
     @" FROM " @LC_TABLE_NAME;
 }
@@ -365,7 +380,11 @@
     location.provider = [rs stringForColumnIndex:8];
     location.locationProvider = [NSNumber numberWithInt:[rs intForColumnIndex:9]];
     location.isValid = [rs intForColumnIndex:10] == 1 ? YES : NO;
-    NSTimeInterval recordedAt = [rs longForColumnIndex:11];
+    location.paused = [rs intForColumnIndex:11] == 1 ? YES : NO;
+    location.ongoing = [rs intForColumnIndex:12] == 1 ? YES : NO;
+    location.userId = [NSNumber numberWithInt:[rs intForColumnIndex:13]];
+    location.orderId = [NSNumber numberWithInt:[rs intForColumnIndex:14]];
+    NSTimeInterval recordedAt = [rs longForColumnIndex:15];
     location.recordedAt = [NSDate dateWithTimeIntervalSince1970:recordedAt];
     return location;
 }
