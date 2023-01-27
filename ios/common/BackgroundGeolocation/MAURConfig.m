@@ -504,7 +504,7 @@
 
 - (NSDictionary*) toDictionary
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:10];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithCapacity:14];
  
     if ([self hasActivityType]) [dict setObject:self.activityType forKey:@"activityType"];
     if ([self hasActivitiesInterval]) [dict setObject:self.activitiesInterval forKey:@"activitiesInterval"];
@@ -522,6 +522,10 @@
     if ([self hasPauseLocationUpdates]) [dict setObject:self._pauseLocationUpdates forKey:@"pauseLocationUpdates"];
     if ([self hasLocationProvider]) [dict setObject:self.locationProvider forKey:@"locationProvider"];
     [dict setObject:self._template forKey:@"postTemplate"];
+    if ([self hasOngoing]) [dict setObject:self.ongoing forKey:@"ongoing"];
+    if ([self hasPaused]) [dict setObject:self.paused forKey:@"paused"];
+    if ([self hasUserId]) [dict setObject:self.user_id forKey:@"user_id"];
+    if ([self hasOrderId]) [dict setObject:self.order_id forKey:@"order_id"];
 
     return dict;
 }
