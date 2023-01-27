@@ -155,6 +155,10 @@
         location.provider ?: [NSNull null],
         location.locationProvider ?: [NSNull null],
         location.isValid == YES ? @(1) : @(0),
+        location.paused == YES ? @(1) : @(0),
+        location.ongoing == YES ? @(1) : @(0),
+        location.userId,
+        location.orderId,
         recordedAt
     ];
 
@@ -243,8 +247,8 @@
             location.provider ?: [NSNull null],
             location.locationProvider ?: [NSNull null],
             location.isValid == YES ? @(1) : @(0),
-            location.paused,
-            location.ongoing,
+            location.paused == YES ? @(1) : @(0),
+            location.ongoing == YES ? @(1) : @(0),
             location.userId,
             location.orderId,
             recordedAt,
