@@ -80,9 +80,13 @@ public class PostLocationTask {
             logger.warn("PostLocationTask has no config. Did you called setConfig? Skipping location.");
             return;
         }
-
-        long locationId = mLocationDAO.persistLocation(location);
-        location.setLocationId(locationId);
+        try {
+          long locationId = mLocationDAO.persistLocation(location);
+          location.setLocationId(locationId);
+        } catch (Exception e){
+          logger.error(e.getMessage());
+          return;
+        }
 
         try {
             mExecutor.execute(new Runnable() {
@@ -92,7 +96,7 @@ public class PostLocationTask {
                 }
             });
         } catch (RejectedExecutionException ex) {
-            mLocationDAO.updateLocationForSync(locationId);
+            mLocationDAO.updateLocationForSync(location.getLocationId());
         }
     }
 
