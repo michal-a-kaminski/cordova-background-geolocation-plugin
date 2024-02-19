@@ -11,6 +11,10 @@ import android.os.Bundle;
 import com.marianhello.bgloc.Config;
 import com.marianhello.logging.LoggerManager;
 
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by finch on 7.11.2017.
  */
@@ -18,6 +22,7 @@ import com.marianhello.logging.LoggerManager;
 public class RawLocationProvider extends AbstractLocationProvider implements LocationListener {
     private LocationManager locationManager;
     private boolean isStarted = false;
+    private Timer timer = new Timer();
 
     public RawLocationProvider(Context context) {
         super(context);
@@ -51,7 +56,17 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
         }
         try {
             logger.info("Requesting location updates from provider {}", provider);
-            locationManager.requestLocationUpdates(provider, mConfig.getInterval(), mConfig.getDistanceFilter(), this);
+            final String finalProvider = provider;
+            locationManager.requestLocationUpdates(finalProvider, mConfig.getInterval(), mConfig.getDistanceFilter(), this);
+            timer.cancel();
+            timer =  new Timer();
+            timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+                public void run() {
+                    // logger.info("meep meep");
+                    onLocationChanged(Objects.requireNonNull(locationManager.getLastKnownLocation(finalProvider))); ;
+                }
+            }, 0, mConfig.getInterval());
             isStarted = true;
         } catch (SecurityException e) {
             logger.error("Security exception: {}", e.getMessage());
@@ -66,6 +81,7 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
         }
         try {
             locationManager.removeUpdates(this);
+            timer.cancel();
         } catch (SecurityException e) {
             logger.error("Security exception: {}", e.getMessage());
             this.handleSecurityException(e);
@@ -91,7 +107,6 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
     @Override
     public void onLocationChanged(Location location) {
         logger.debug("Location change: {}", location.toString());
-
         showDebugToast("acy:" + location.getAccuracy() + ",v:" + location.getSpeed());
         handleLocation(location);
     }
