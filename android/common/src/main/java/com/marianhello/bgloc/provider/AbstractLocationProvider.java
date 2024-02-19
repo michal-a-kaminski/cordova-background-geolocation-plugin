@@ -150,7 +150,9 @@ public abstract class AbstractLocationProvider implements LocationProvider {
 
     protected void showDebugToast (String text) {
         if (mConfig.isDebugging()) {
-            Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
+        ContextCompat.getMainExecutor(mContext).execute(() -> {
+                Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
+          });
         }
     }
 
