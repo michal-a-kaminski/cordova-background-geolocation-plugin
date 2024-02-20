@@ -63,10 +63,14 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
             timer.scheduleAtFixedRate(new TimerTask() {
             @Override
                 public void run() {
-                    // logger.info("meep meep");
-                    onLocationChanged(Objects.requireNonNull(locationManager.getLastKnownLocation(finalProvider))); ;
+                    try {
+                    logger.info("meep meep");
+                    Location location = Objects.requireNonNull(locationManager.getLastKnownLocation(finalProvider));
+                    onLocationChanged(location);
+                    } catch (Exception e){
+                    logger.info("meep meep" + e.getMessage());
+                    }
                 }
-            }, 0, mConfig.getInterval());
             isStarted = true;
         } catch (SecurityException e) {
             logger.error("Security exception: {}", e.getMessage());
