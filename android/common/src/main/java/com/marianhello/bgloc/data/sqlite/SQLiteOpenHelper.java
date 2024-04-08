@@ -21,7 +21,7 @@ import static com.marianhello.bgloc.data.sqlite.SQLiteLocationContract.LocationE
 public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
     private static final String TAG = SQLiteOpenHelper.class.getName();
     public static final String SQLITE_DATABASE_NAME = "cordova_bg_geolocation.db";
-    public static final int DATABASE_VERSION = 16;
+    public static final int DATABASE_VERSION = 17;
 
     public static final String TEXT_TYPE = " TEXT";
     public static final String INTEGER_TYPE = " INTEGER";
@@ -121,6 +121,15 @@ public class SQLiteOpenHelper extends android.database.sqlite.SQLiteOpenHelper {
                                 " ADD COLUMN " + ConfigurationEntry.COLUMN_NAME_ONGOING + INTEGER_TYPE);
                                 alterSql.add("ALTER TABLE " + ConfigurationEntry.TABLE_NAME +
                                 " ADD COLUMN " + ConfigurationEntry.COLUMN_NAME_PAUSED + INTEGER_TYPE);
+            case 16:
+                alterSql.add("ALTER TABLE " + LocationEntry.TABLE_NAME +
+                        " ADD COLUMN " + LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY + REAL_TYPE);
+                alterSql.add("ALTER TABLE " + LocationEntry.TABLE_NAME +
+                        " ADD COLUMN " + LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY + INTEGER_TYPE);
+                alterSql.add("UPDATE " + LocationEntry.TABLE_NAME +
+                                        " SET " + LocationEntry.COLUMN_NAME_VERTICAL_ACCURACY + "= -1," +
+                                        LocationEntry.COLUMN_NAME_HAS_VERTICAL_ACCURACY + "= 0");
+
                 break; // DO NOT FORGET TO MOVE DOWN BREAK ON DB UPGRADE!!!
             default:
                 onDowngrade(db, 0, 0);

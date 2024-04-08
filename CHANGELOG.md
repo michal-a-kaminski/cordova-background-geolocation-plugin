@@ -4,11 +4,86 @@
 
 **Closed issues:**
 
-- \[Android\] Crash on reboot / Does not start on reboot [\#111](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/111)
-- rename package so that it doenst mix with parent repo [\#106](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/106)
+- Issue in closing of the line in "SQLiteOpenHelper.java" LocationEntry - missing "\)" and ";" and possibly "+" [\#180](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/180)
+- INSTALL\_FAILED\_MISSING\_SHARED\_LIBRARY [\#173](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/173)
 
 **Merged pull requests:**
 
+- Add CI build [\#184](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/184) ([HarelM](https://github.com/HarelM))
+- fix concatenate sentence [\#182](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/182) ([jhonimaike](https://github.com/jhonimaike))
+- doc: adding altitudeAccuracy parameter [\#177](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/177) ([Athorcis](https://github.com/Athorcis))
+- feat: add support altitude precision on Android [\#176](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/176) ([Athorcis](https://github.com/Athorcis))
+
+## [v2.0.10](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.0.10) (2023-11-30)
+
+**Closed issues:**
+
+- Permission is reported as denied if it's set to Ask Every Time [\#169](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/169)
+- Can't start Foreground Services when the app is in Background on android 12+ [\#166](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/166)
+- How to send Cookies with HTTP Location Posting [\#165](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/165)
+- Android ask for ACCESS\_BACKGROUND\_LOCATION on API \> 30 [\#164](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/164)
+- Bug in configuration [\#163](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/163)
+- On Background and Stationary, the plugin ignores the interval and send data every millisecond. [\#162](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/162)
+- Not posting data \(postTemplate\) along with the URL on Cordova-android  [\#160](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/160)
+- Plugin not working in background on iOS [\#155](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/155)
+- Can't resolve 'cordova/exec' / Can't resolve 'cordova/channel' [\#150](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/150)
+- EXC\_BAD\_ACCESS on ios XCODE  [\#137](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/137)
+- This is how to run on Android 10. [\#127](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/127)
+- App Crashes immediately when the 'Access to Device's location' dialog pops up and is allowed [\#122](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/122)
+
+**Merged pull requests:**
+
+- Update android-permissions plugin [\#171](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/171) ([jwasnoggin](https://github.com/jwasnoggin))
+
+## [v2.0.9](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.0.9) (2023-05-04)
+
+**Closed issues:**
+
+- Always send location in the background and without notification [\#144](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/144)
+- Failed to install 'cordova-background-geolocation-plugin': TypeError: Cannot read properties of undefined \(reading 'id'\) [\#143](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/143)
+- How to actively track locations with raw provider? [\#141](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/141)
+- Can't switch from background to foreground mode while running [\#139](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/139)
+- Hidden or Change route notification when tap [\#138](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/138)
+- Default value "11+" for GOOGLE\_PLAY\_SERVICES\_VERSION no longer supported [\#136](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/136)
+- How to access notificationIconLarge/notificationIconSmall? [\#130](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/130)
+- app close after BackgroundGeolocation.start\(\) [\#119](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/119)
+- Error start service [\#118](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/118)
+- Error in android after updating the plugin [\#110](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/110)
+- Start event not firing [\#109](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/109)
+- Navigation off button in notification [\#108](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/108)
+- created new project for background location  [\#105](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/105)
+- Not getting locations in Samsung devices [\#91](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/91)
+- Plugin not working in android 12 after a long time in background or device locked [\#90](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/90)
+- Heading and bearing undefined  [\#78](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/78)
+
+**Merged pull requests:**
+
+- 2.0.9 [\#149](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/149) ([HarelM](https://github.com/HarelM))
+- fix\(build\): Remove a blank line in plugin.xml [\#148](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/148) ([jdupuis](https://github.com/jdupuis))
+- Add PendingIntent mutability flag for Android 12 [\#135](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/135) ([nathan-xiao1](https://github.com/nathan-xiao1))
+
+## [v2.0.8](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v2.0.8) (2023-01-10)
+
+**Closed issues:**
+
+- FLAG\_MUTABLE with latest version [\#131](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/131)
+- cannot access zzbfm / class file for com.google.android.gms.internal.zzbfm not found - Ionic 6 [\#128](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/128)
+- Provide option for manual distanceFilter calcaultion [\#123](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/123)
+- App Crash FLAG MUTABLE OR IMUTABLE [\#121](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/121)
+- Can't create android build [\#120](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/120)
+- Build Failed in iOS using OutSystems  [\#117](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/117)
+- \[Android\] Crash on reboot / Does not start on reboot [\#111](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/111)
+- rename package so that it doenst mix with parent repo [\#106](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/106)
+- Failure Build with AAPT: error: attribute android:foregroundServiceType not found [\#82](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/82)
+- Send data every 30 Seconds\(or X seconds\) [\#81](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/81)
+- Location posting stops randomly and resumes only after switching the aeroplane mode on/off [\#79](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/79)
+- Background Geolocation Tracking joins immediately to Stationary mode [\#77](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/77)
+- Send data doesn't work  [\#74](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/74)
+- Update notification while service is running [\#72](https://github.com/HaylLtd/cordova-background-geolocation-plugin/issues/72)
+
+**Merged pull requests:**
+
+- 2.0.8 [\#134](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/134) ([andreandersson](https://github.com/andreandersson))
 - fix: handle boot events in Android [\#112](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/112) ([andreandersson](https://github.com/andreandersson))
 - Updated README.md [\#107](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/107) ([acognigni-evotecnia](https://github.com/acognigni-evotecnia))
 
@@ -139,6 +214,10 @@
 ## [v1.0.0](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v1.0.0) (2021-05-04)
 
 ## [v1.0.0-rc.5](https://github.com/HaylLtd/cordova-background-geolocation-plugin/tree/v1.0.0-rc.5) (2021-05-03)
+
+**Implemented enhancements:**
+
+- GPS transactional location fetch [\#38](https://github.com/HaylLtd/cordova-background-geolocation-plugin/pull/38) ([HarelM](https://github.com/HarelM))
 
 **Fixed bugs:**
 
