@@ -127,6 +127,7 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
 
     private static LocationTransform sLocationTransform;
     private static LocationProviderFactory sLocationProviderFactory;
+    private BackgroundLocation lastSendLocation = null;
 
     private class ServiceHandler extends Handler {
         public ServiceHandler(Looper looper) {
@@ -559,7 +560,7 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
                 logger.debug("Location task result: {}", value);
             }
         });
-
+        lastSendLocation = location;
         postLocation(location);
     }
 
@@ -702,6 +703,14 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
           } else {
             logger.info("No config to transform location");
           }
+        if(lastSendLocation != null &&  location.getDate() - lastSendLocation.getDate() < 4999){
+          logger.info("transformLocation Location nullfied");
+          location = null;
+        }
+        if (lastSendLocation != null && location != null){
+        String  time = String.valueOf((location.getDate() - lastSendLocation.getDate()));
+          logger.info("transformLocation Time difference in msis " + time);
+        }
         if (sLocationTransform != null) {
             return sLocationTransform.transformLocationBeforeCommit(this, location);
         }

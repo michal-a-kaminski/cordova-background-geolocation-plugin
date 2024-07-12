@@ -60,15 +60,15 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
             locationManager.requestLocationUpdates(finalProvider, mConfig.getInterval(), mConfig.getDistanceFilter(), this);
             timer.cancel();
             timer =  new Timer();
-            timer.scheduleAtFixedRate(new TimerTask() {
+            timer.schedule(new TimerTask() {
             @Override
                 public void run() {
                     try {
-                    logger.info("meep meep");
+                    logger.info("TT- ostatnia lokalizacja");
                     Location location = Objects.requireNonNull(locationManager.getLastKnownLocation(finalProvider));
                     onLocationChanged(location);
                     } catch (Exception e) {
-                    logger.info("meep meep" + e.getMessage());
+                    logger.info("TT- ostatnia lokalizacja Error: " + e.getMessage());
                     }
                 }
             }, 0, mConfig.getInterval());

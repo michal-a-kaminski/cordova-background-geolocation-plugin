@@ -26,6 +26,7 @@ import com.marianhello.bgloc.data.BackgroundLocation;
 import com.marianhello.logging.LoggerManager;
 import com.marianhello.utils.ToneGenerator;
 import com.marianhello.utils.ToneGenerator.Tone;
+import androidx.core.content.ContextCompat;
 
 /**
  * AbstractLocationProvider
