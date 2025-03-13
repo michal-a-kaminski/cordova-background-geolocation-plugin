@@ -428,6 +428,20 @@ public class SQLiteLocationDAO implements LocationDAO {
     return db.update(LocationEntry.TABLE_NAME, values, whereClause, whereArgs);
   }
 
+  public void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd) {
+    ContentValues values = new ContentValues();
+    values.put(LocationEntry.COLUMN_NAME_ONGOING, "1");
+    String whereClause = LocationEntry.COLUMN_NAME_ORDER_ID + " = ? AND " +
+                         LocationEntry.COLUMN_NAME_DATE + " >= ? AND " +
+                         LocationEntry.COLUMN_NAME_DATE + " <= ?";
+    String[] whereArgs = {
+        orderId,
+        String.valueOf(timeStart),
+        String.valueOf(timeEnd)
+    };
+    db.update(LocationEntry.TABLE_NAME, values, whereClause, whereArgs);
+}
+
   private BackgroundLocation hydrate(Cursor c) {
     BackgroundLocation l = new BackgroundLocation(c.getString(c.getColumnIndex(LocationEntry.COLUMN_NAME_PROVIDER)));
     l.setTime(c.getLong(c.getColumnIndex(LocationEntry.COLUMN_NAME_TIME)));

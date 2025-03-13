@@ -43,25 +43,48 @@ public class LoggerManager {
     }
 
     public static void enableDBLogging() {
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        if (root.getAppender(SQLITE_APPENDER_NAME) == null) {
-            LoggerContext context = (LoggerContext) org.slf4j.LoggerFactory.getILoggerFactory();
-            SQLiteAppender appender = new SQLiteAppender();
-            appender.setName(SQLITE_APPENDER_NAME);
-            appender.setMaxHistory("7 days"); //keep 7 days' worth of history
-            appender.setContext(context);
-            appender.start();
-            root.addAppender(appender);
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+                if (root.getAppender(SQLITE_APPENDER_NAME) == null) {
+                    LoggerContext context = (LoggerContext) org.slf4j.LoggerFactory.getILoggerFactory();
+                    SQLiteAppender appender = new SQLiteAppender();
+                    appender.setName(SQLITE_APPENDER_NAME);
+                    appender.setMaxHistory("7 days"); // keep 7 days' worth of history
+                    appender.setContext(context);
+                    try {
+                        appender.start();
+                        root.addAppender(appender);
+                    } catch (Exception e) {
+                        // Handle any exceptions that might occur
+                        Log.e("LoggingError", "Failed to start SQLiteAppender", e);
+                    }
+                }
+            }
+        }).start();
     }
 
     public static void disableDBLogging() {
-        ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-        Appender<ILoggingEvent> appender = root.getAppender(SQLITE_APPENDER_NAME);
-        if (appender != null) {
-            appender.stop();
-            root.detachAppender(appender);
-        }
+        Runnable disableLoggingTask = new Runnable() {
+            @Override
+            public void run() {
+                ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+                Appender<ILoggingEvent> appender = root.getAppender(SQLITE_APPENDER_NAME);
+                if (appender != null) {
+                    try {
+                        appender.stop();
+                        root.detachAppender(appender);
+                    } catch (Exception e) {
+                        // Handle any exceptions that might occur
+                        Log.e("LoggingError", "Failed to stop SQLiteAppender", e);
+                    }
+                }
+            }
+        };
+    
+        // Execute the Runnable in a new thread
+        new Thread(disableLoggingTask).start();
     }
 
     public static org.slf4j.Logger getLogger(Class forClass) {

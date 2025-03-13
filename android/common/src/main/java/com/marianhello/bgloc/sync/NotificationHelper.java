@@ -94,13 +94,15 @@ public class NotificationHelper {
 
     public static void registerAllChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String appName = ResourceResolver.newInstance(context).getString(("app_name"));
-            // Create the NotificationChannel, but only on API 26+ because
-            // the NotificationChannel class is new and not in the support library
+            String appName = ResourceResolver.newInstance(context).getString("app_name");
             android.app.NotificationManager notificationManager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(createServiceChannel(appName));
-            notificationManager.createNotificationChannel(createSyncChannel());
-            notificationManager.createNotificationChannel(createAndroidPermissionsChannel(appName));
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(createServiceChannel(appName));
+                notificationManager.createNotificationChannel(createSyncChannel());
+                notificationManager.createNotificationChannel(createAndroidPermissionsChannel(appName));
+            } else {
+                Log.e("NotificationError", "NotificationManager is null");
+            }
         }
     }
 

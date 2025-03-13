@@ -109,10 +109,11 @@ public class PostLocationTask {
         try {
             if (!mExecutor.awaitTermination(waitSeconds, TimeUnit.SECONDS)) {
                 mExecutor.shutdownNow();
-                mLocationDAO.deleteUnpostedLocations();
+                mLocationDAO.deleteUnpostedLocations(); // Clean up unposted locations
             }
         } catch (InterruptedException e) {
             mExecutor.shutdownNow();
+            Thread.currentThread().interrupt(); // Restore interrupted status
         }
     }
 
@@ -121,16 +122,14 @@ public class PostLocationTask {
 
         if (mHasConnectivity && mConfig.hasValidUrl()) {
             if (postLocation(location)) {
-                mLocationDAO.deleteLocationById(locationId);
-
-                return; // if posted successfully do nothing more
+                mLocationDAO.deleteLocationById(locationId); // Delete if posted successfully
+                return;
             } else {
-                mLocationDAO.updateLocationForSync(locationId);
+                mLocationDAO.updateLocationForSync(locationId); // Mark for sync if posting failed
             }
         } else {
-            mLocationDAO.updateLocationForSync(locationId);
-        }
-
+            mLocationDAO.updateLocationForSync(locationId); // Mark for sync if no connectivity
+        }  
         if (mConfig.hasValidSyncUrl()) {
             long syncLocationsCount = mLocationDAO.getLocationsForSyncCount(System.currentTimeMillis());
             if (syncLocationsCount >= mConfig.getSyncThreshold()) {

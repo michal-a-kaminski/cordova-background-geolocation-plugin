@@ -303,6 +303,13 @@ public class BackgroundGeolocationFacade {
         dao.deleteAllLocations();
     }
 
+
+    public void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd){
+        logger.info("pdateLocationsToOngoing" + orderId + " start: " + timeStart + + " end:" + timeEnd );
+        LocationDAO dao = DAOFactory.createLocationDAO(getContext());
+        dao.updateLocationsToOngoingInGivenOrderAndTimeRange(orderId, timeStart,timeEnd)
+    }
+
     public BackgroundLocation getCurrentLocation(int timeout, long maximumAge, boolean enableHighAccuracy) throws PluginException {
         logger.info("Getting current location with timeout:{} maximumAge:{} enableHighAccuracy:{}", timeout, maximumAge, enableHighAccuracy);
 

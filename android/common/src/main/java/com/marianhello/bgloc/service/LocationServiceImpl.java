@@ -422,8 +422,19 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
                 mProvider.onCommand(LocationProvider.CMD_SWITCH_MODE,
                         LocationProvider.FOREGROUND_MODE);
             }
-            super.startForeground(NOTIFICATION_ID, notification);
-            mIsInForeground = true;
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    super.startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
+                } else {
+                    super.startForeground(NOTIFICATION_ID, notification);
+                }
+                
+                mIsInForeground = true;
+            } catch (SecurityException e) {
+                // Handle the SecurityException
+                logger.error("Failed to start foreground service", e);
+                // Optionally, notify the user or take other appropriate actions
+            }
         }
     }
 
@@ -709,7 +720,7 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
         }
         if (lastSendLocation != null && location != null){
         String  time = String.valueOf((location.getDate() - lastSendLocation.getDate()));
-          logger.info("transformLocation Time difference in msis " + time);
+          logger.info("transformLocation Time difference in ms is " + time);
         }
         if (sLocationTransform != null) {
             return sLocationTransform.transformLocationBeforeCommit(this, location);

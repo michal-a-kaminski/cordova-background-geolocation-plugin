@@ -392,4 +392,19 @@ public class ContentProviderLocationDAO implements LocationDAO {
 
         return mResolver.update(mContentUri, values, whereClause, whereArgs);
     }
+
+    @Override
+    public void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd) {
+        ContentValues values = new ContentValues();
+        values.put(LocationEntry.COLUMN_NAME_ONGOING, "1");
+        String whereClause = LocationEntry.COLUMN_NAME_ORDER_ID + " = ? AND " +
+                             LocationEntry.COLUMN_NAME_DATE + " >= ? AND " +
+                             LocationEntry.COLUMN_NAME_DATE + " <= ? AND " +
+        String[] whereArgs = {
+            orderId,
+            String.valueOf(timeStart),
+            String.valueOf(timeEnd),
+        };
+        mResolver.update(mContentUri, values, whereClause, whereArgs);
+    }
 }

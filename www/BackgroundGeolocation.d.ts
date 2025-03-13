@@ -649,6 +649,13 @@ export interface BackgroundGeolocationPlugin {
     fail?: (error: BackgroundGeolocationError) => void
   ): Promise<void>;
 
+  updateLocationsToOngoingInGivenOrderAndTimeRange(
+    orderId: String,
+    timeStart: number,
+    timeEnd: number,
+    success?: () => void,
+    fail?: (error: BackgroundGeolocationError) => void
+  ): Promise<void>;
   /**
    * Switch plugin operation mode,
    *
