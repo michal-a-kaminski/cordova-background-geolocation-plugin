@@ -11,7 +11,7 @@ import android.graphics.Color;
 import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-
+import android.util.Log;
 import com.marianhello.bgloc.ResourceResolver;
 import com.marianhello.logging.LoggerManager;
 
