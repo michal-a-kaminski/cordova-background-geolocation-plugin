@@ -398,8 +398,8 @@ public class ContentProviderLocationDAO implements LocationDAO {
         ContentValues values = new ContentValues();
         values.put(LocationEntry.COLUMN_NAME_ONGOING, "1");
         String whereClause = LocationEntry.COLUMN_NAME_ORDER_ID + " = ? AND " +
-                             LocationEntry.COLUMN_NAME_DATE + " >= ? AND " +
-                             LocationEntry.COLUMN_NAME_DATE + " <= ? AND " +
+            LocationEntry.COLUMN_NAME_DATE + " >= ? AND " +
+            LocationEntry.COLUMN_NAME_DATE + " <= ?";
         String[] whereArgs = {
             orderId,
             String.valueOf(timeStart),
