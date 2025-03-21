@@ -305,9 +305,9 @@ public class BackgroundGeolocationFacade {
 
 
     public void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd){
-        logger.info("pdateLocationsToOngoing" + orderId + " start: " + timeStart + + " end:" + timeEnd );
+        logger.info("pdateLocationsToOngoing" + orderId + " start: " + timeStart +  " end:" + timeEnd );
         LocationDAO dao = DAOFactory.createLocationDAO(getContext());
-        dao.updateLocationsToOngoingInGivenOrderAndTimeRange(orderId, timeStart,timeEnd)
+        dao.updateLocationsToOngoingInGivenOrderAndTimeRange(orderId, timeStart,timeEnd);
     }
 
     public BackgroundLocation getCurrentLocation(int timeout, long maximumAge, boolean enableHighAccuracy) throws PluginException {
