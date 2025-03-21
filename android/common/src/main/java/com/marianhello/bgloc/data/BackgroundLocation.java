@@ -67,8 +67,19 @@ public class BackgroundLocation implements Parcelable {
     }
 
     @Deprecated
+    public BackgroundLocation(Location location, String satelitteInfo) {
+        this(BackgroundLocation.fromLocation(location, satelitteInfo));
+    }
+
+  @Deprecated
     public BackgroundLocation(Integer locationProvider, Location location) {
         this(location);
+        this.locationProvider = locationProvider;
+    }
+
+    @Deprecated
+    public BackgroundLocation(Integer locationProvider, Location location, String satelitteInfo) {
+        this(location, satelitteInfo);
         this.locationProvider = locationProvider;
     }
 
@@ -185,6 +196,41 @@ public class BackgroundLocation implements Parcelable {
         return l;
     }
 
+    public static BackgroundLocation fromLocation(Location location, String satelliteInfo) {
+        BackgroundLocation l = new BackgroundLocation();
+
+        l.provider = satelliteInfo;
+        l.latitude = location.getLatitude();
+        l.longitude = location.getLongitude();
+        l.time = location.getTime();
+        l.accuracy = location.getAccuracy();
+        l.speed = location.getSpeed();
+        l.bearing = location.getBearing();
+        l.altitude = location.getAltitude();
+        l.hasAccuracy = location.hasAccuracy();
+        l.hasAltitude = location.hasAltitude();
+        l.hasSpeed = location.hasSpeed();
+        l.hasBearing = location.hasBearing();
+        l.extras = location.getExtras();
+        l.order_id = 0;
+        l.user_id = 0;
+        l.ongoing = false;
+        l.paused = false;
+        l.date = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            l.elapsedRealtimeNanos = location.getElapsedRealtimeNanos();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            l.setIsFromMockProvider(location.isFromMockProvider());
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            l.verticalAccuracy = location.getVerticalAccuracyMeters();
+            l.hasVerticalAccuracy = location.hasVerticalAccuracy();
+        }
+
+        return l;
+    }
     /**
      * Create a new Location from a cursor
      *

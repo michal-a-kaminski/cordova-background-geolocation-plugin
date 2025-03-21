@@ -102,6 +102,15 @@ public abstract class AbstractLocationProvider implements LocationProvider {
         }
     }
 
+    protected void handleLocation (Location location, String totalSatellitesInFix) {
+        playDebugTone(Tone.BEEP);
+        if (mDelegate != null) {
+            BackgroundLocation bgLocation = new BackgroundLocation(PROVIDER_ID, location, totalSatellitesInFix);
+            bgLocation.setMockLocationsEnabled(hasMockLocationsEnabled());
+            mDelegate.onLocation(bgLocation);
+        }
+    }
+
     /**
      * Handle stationary location with radius
      *

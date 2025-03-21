@@ -1,12 +1,18 @@
 package com.marianhello.bgloc.provider;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.location.Criteria;
+import android.location.GnssStatus;
+import android.location.GpsSatellite;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 
 import com.marianhello.bgloc.Config;
 import com.marianhello.logging.LoggerManager;
@@ -23,6 +29,11 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
     private LocationManager locationManager;
     private boolean isStarted = false;
     private Timer timer = new Timer();
+
+    private GnssStatus.Callback gnssStatusCallback;
+    private int globalInFix = 0;
+    private  int globalInView = 0;
+
 
     public RawLocationProvider(Context context) {
         super(context);
@@ -58,7 +69,27 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
             logger.info("Requesting location updates from provider {}", provider);
             final String finalProvider = provider;
             locationManager.requestLocationUpdates(finalProvider, mConfig.getInterval(), mConfig.getDistanceFilter(), this);
-            timer.cancel();
+
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            gnssStatusCallback = new GnssStatus.Callback() {
+              @Override
+              public void onSatelliteStatusChanged(@NonNull GnssStatus status) {
+                globalInFix = 0;
+                globalInView = 0;
+                int satelliteCount = status.getSatelliteCount();
+                for (int i = 0; i < satelliteCount; i++) {
+                  if (status.usedInFix(i)) {
+                    globalInFix++;
+                  } else {
+                    globalInView++;
+                  }
+                }
+              }
+            };
+            locationManager.registerGnssStatusCallback(gnssStatusCallback);
+          }
+
+          timer.cancel();
             timer =  new Timer();
             timer.schedule(new TimerTask() {
             @Override
@@ -86,7 +117,10 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
         }
         try {
             locationManager.removeUpdates(this);
-            timer.cancel();
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            locationManager.unregisterGnssStatusCallback(gnssStatusCallback);
+          }
+          timer.cancel();
         } catch (SecurityException e) {
             logger.error("Security exception: {}", e.getMessage());
             this.handleSecurityException(e);
@@ -113,7 +147,24 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
     public void onLocationChanged(Location location) {
         logger.debug("Location change: {}", location.toString());
         showDebugToast("acy:" + location.getAccuracy() + ",v:" + location.getSpeed());
-        handleLocation(location);
+        int inFix = 0;
+        int inView = 0;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+          inFix = globalInFix;
+          inView = globalInView;
+        } else  {
+          @SuppressLint("MissingPermission") GpsStatus gpsStatus = locationManager.getGpsStatus(null);
+          Iterable<GpsSatellite> satellites = gpsStatus.getSatellites();
+          for (GpsSatellite satellite : satellites) {
+            if (satellite.usedInFix()) {
+              inFix++;
+            } else {
+              inView++;
+            }
+          }
+        }
+        String total =  inFix + "/" + (inFix + inView);
+      handleLocation(location, total);
     }
 
     @Override
