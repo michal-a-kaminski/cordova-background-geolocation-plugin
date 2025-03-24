@@ -49,7 +49,9 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
 
     @Override
     public void onStart() {
+      logger.debug("Raw start");
         if (isStarted) {
+          logger.debug("Raw start is Started return");
             return;
         }
         String provider = LocationManager.GPS_PROVIDER;
@@ -112,7 +114,9 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
 
     @Override
     public void onStop() {
+      logger.debug("Raw stop");
         if (!isStarted) {
+          logger.debug("Raw is stoped");
             return;
         }
         try {

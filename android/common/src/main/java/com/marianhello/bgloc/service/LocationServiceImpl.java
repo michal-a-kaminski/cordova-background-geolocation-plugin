@@ -455,9 +455,10 @@ public class LocationServiceImpl extends Service implements ProviderDelegate, Lo
     public synchronized void configure(Config config) {
         if (mConfig == null) {
             mConfig = config;
+            logger.debug("Configuration not changed");
             return;
         }
-
+        logger.debug("Configuration is changed");
         final Config currentConfig = mConfig;
         mConfig = config;
 
