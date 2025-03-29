@@ -292,7 +292,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin implements Plugin
             runOnWebViewThread(new Runnable() {
                 public void run() {
                     try{
-                    Long orderId = data.optInt(0, Integer.MAX_VALUE);
+                    int orderId = data.optInt(0, Integer.MAX_VALUE);
                     int startTime = data.optInt(1, Integer.MAX_VALUE);
                     int endTime = data.optInt(2, Integer.MAX_VALUE);
                     facade.updateLocationsToOngoingInGivenOrderAndTimeRange(orderId, startTime, endTime);
