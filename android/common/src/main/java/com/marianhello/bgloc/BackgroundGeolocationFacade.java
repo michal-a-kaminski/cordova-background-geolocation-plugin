@@ -304,7 +304,7 @@ public class BackgroundGeolocationFacade {
     }
 
 
-    public void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd){
+    public void updateLocationsToOngoingInGivenOrderAndTimeRange(int orderId, int timeStart, int timeEnd){
         logger.info("pdateLocationsToOngoing" + orderId + " start: " + timeStart +  " end:" + timeEnd );
         LocationDAO dao = DAOFactory.createLocationDAO(getContext());
         dao.updateLocationsToOngoingInGivenOrderAndTimeRange(orderId, timeStart,timeEnd);

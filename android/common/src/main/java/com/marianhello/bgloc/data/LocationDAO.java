@@ -19,5 +19,5 @@ public interface LocationDAO {
     BackgroundLocation deleteFirstUnpostedLocation();
     int deleteAllLocations();
     int deleteUnpostedLocations();
-    void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd);
+    void updateLocationsToOngoingInGivenOrderAndTimeRange(int orderId, int timeStart, int timeEnd);
 }

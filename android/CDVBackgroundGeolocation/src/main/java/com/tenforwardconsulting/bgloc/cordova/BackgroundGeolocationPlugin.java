@@ -62,6 +62,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin implements Plugin
     public static final String ACTION_GET_VALID_LOCATIONS_AND_DELETE = "getValidLocationsAndDelete";
     public static final String ACTION_DELETE_LOCATION = "deleteLocation";
     public static final String ACTION_DELETE_ALL_LOCATIONS = "deleteAllLocations";
+    public static final String ACTION_UPDATE_LOCATIONS_TO_ONGOING_IN_GIVEN_ORDER_AND_TIME_RANGE = "updateLocationsToOngoingInGivenOrderAndTimeRange";
     public static final String ACTION_GET_CURRENT_LOCATION = "getCurrentLocation";
     public static final String ACTION_GET_CONFIG = "getConfig";
     public static final String ACTION_GET_LOG_ENTRIES = "getLogEntries";
@@ -287,7 +288,25 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin implements Plugin
             });
 
             return true;
-        } else if (ACTION_GET_CURRENT_LOCATION.equals(action)) {
+        } else if (ACTION_UPDATE_LOCATIONS_TO_ONGOING_IN_GIVEN_ORDER_AND_TIME_RANGE.equals(action)) {
+            runOnWebViewThread(new Runnable() {
+                public void run() {
+                    try{
+                    Long orderId = data.optInt(0, Integer.MAX_VALUE);
+                    int startTime = data.optInt(1, Integer.MAX_VALUE);
+                    int endTime = data.optInt(2, Integer.MAX_VALUE);
+                    facade.updateLocationsToOngoingInGivenOrderAndTimeRange(orderId, startTime, endTime);
+                    callbackContext.success();
+                    } catch (JSONException e) {
+                        logger.error("Update locations to ongoing failed: {}", e.getMessage());
+                        callbackContext.sendPluginResult(ErrorPluginResult.from("Update locations to ongoing failed", e, PluginException.JSON_ERROR));
+                    }
+                }
+            });
+
+            return true;
+        } 
+        else if (ACTION_GET_CURRENT_LOCATION.equals(action)) {
             runOnWebViewThread(new Runnable() {
                 @Override
                 public void run() {

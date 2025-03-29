@@ -396,12 +396,12 @@ public class ContentProviderLocationDAO implements LocationDAO {
     @Override
     public void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd) {
         ContentValues values = new ContentValues();
-        values.put(LocationEntry.COLUMN_NAME_ONGOING, "1");
+        values.put(LocationEntry.COLUMN_NAME_ONGOING, 1);
         String whereClause = LocationEntry.COLUMN_NAME_ORDER_ID + " = ? AND " +
             LocationEntry.COLUMN_NAME_DATE + " >= ? AND " +
             LocationEntry.COLUMN_NAME_DATE + " <= ?";
         String[] whereArgs = {
-            orderId,
+            String.valueOf(orderId),
             String.valueOf(timeStart),
             String.valueOf(timeEnd),
         };
