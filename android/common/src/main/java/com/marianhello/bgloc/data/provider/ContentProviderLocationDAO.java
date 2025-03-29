@@ -394,7 +394,7 @@ public class ContentProviderLocationDAO implements LocationDAO {
     }
 
     @Override
-    public void updateLocationsToOngoingInGivenOrderAndTimeRange(String orderId, Long timeStart, Long timeEnd) {
+    public void updateLocationsToOngoingInGivenOrderAndTimeRange(int orderId, int timeStart, int timeEnd) {
         ContentValues values = new ContentValues();
         values.put(LocationEntry.COLUMN_NAME_ONGOING, 1);
         String whereClause = LocationEntry.COLUMN_NAME_ORDER_ID + " = ? AND " +
