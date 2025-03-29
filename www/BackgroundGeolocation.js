@@ -165,6 +165,13 @@ var BackgroundGeolocation = {
       'deleteAllLocations');
   },
 
+  updateLocationsToOngoingInGivenOrderAndTimeRange: 
+  function( orderId, timeStart, timeEnd, success, failure ) {
+    return execWithPromise(success, failure,
+      'updateLocationsToOngoingInGivenOrderAndTimeRange', [orderId,
+      timeStart, timeEnd]
+    )
+  },
   getCurrentLocation: function(success, failure, options) {
     options = options || {};
     return execWithPromise(success,
