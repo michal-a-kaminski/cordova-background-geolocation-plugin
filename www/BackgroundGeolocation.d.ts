@@ -650,7 +650,7 @@ export interface BackgroundGeolocationPlugin {
   ): Promise<void>;
 
   updateLocationsToOngoingInGivenOrderAndTimeRange(
-    orderId: String,
+    orderId: number,
     timeStart: number,
     timeEnd: number,
     success?: () => void,
