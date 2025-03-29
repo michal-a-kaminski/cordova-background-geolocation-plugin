@@ -297,7 +297,7 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin implements Plugin
                     int endTime = data.optInt(2, Integer.MAX_VALUE);
                     facade.updateLocationsToOngoingInGivenOrderAndTimeRange(orderId, startTime, endTime);
                     callbackContext.success();
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         logger.error("Update locations to ongoing failed: {}", e.getMessage());
                         callbackContext.sendPluginResult(ErrorPluginResult.from("Update locations to ongoing failed", e, PluginException.JSON_ERROR));
                     }
