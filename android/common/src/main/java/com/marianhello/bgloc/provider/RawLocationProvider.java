@@ -55,18 +55,18 @@ public class RawLocationProvider extends AbstractLocationProvider implements Loc
             return;
         }
         String provider = LocationManager.GPS_PROVIDER;
-        if (!locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER) ||
-                Build.VERSION.SDK_INT <= 30) {
-            Criteria criteria = new Criteria();
-            criteria.setAltitudeRequired(false);
-            criteria.setBearingRequired(false);
-            criteria.setSpeedRequired(true);
-            criteria.setCostAllowed(true);
-            criteria.setAccuracy(Criteria.ACCURACY_FINE);
-            criteria.setHorizontalAccuracy(translateDesiredAccuracy(mConfig.getDesiredAccuracy()));
-            criteria.setPowerRequirement(Criteria.POWER_HIGH);
-            provider = locationManager.getBestProvider(criteria, true);
-        }
+        // if (!locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER) ||
+        //         Build.VERSION.SDK_INT <= 30) {
+        //     Criteria criteria = new Criteria();
+        //     criteria.setAltitudeRequired(false);
+        //     criteria.setBearingRequired(false);
+        //     criteria.setSpeedRequired(true);
+        //     criteria.setCostAllowed(true);
+        //     criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        //     criteria.setHorizontalAccuracy(translateDesiredAccuracy(mConfig.getDesiredAccuracy()));
+        //     criteria.setPowerRequirement(Criteria.POWER_HIGH);
+        //     provider = locationManager.getBestProvider(criteria, true);
+        // }
         try {
             logger.info("Requesting location updates from provider {}", provider);
             final String finalProvider = provider;
