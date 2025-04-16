@@ -121,6 +121,65 @@
     XCTAssertEqual([locations count], 0, @"Number of stored location is %lu expecting 0", (unsigned long)[locations count]);
 }
 
+- (void)testUpdateLocationsToOngoing {
+    MAURSQLiteLocationDAO *locationDAO = [MAURSQLiteLocationDAO sharedInstance];
+    NSDate *now = [NSDate date];
+    NSTimeInterval nowTimestamp = [now timeIntervalSince1970];
+    
+    MAURLocation *location1 = [[MAURLocation alloc] init];
+    location1.time = [NSDate dateWithTimeIntervalSince1970:nowTimestamp - 100];
+    location1.orderId = @42;
+    location1.ongoing = @0;
+    location1.latitude = @1.0;
+    location1.longitude = @1.0;
+    location1.provider = @"TEST";
+    
+    MAURLocation *location2 = [[MAURLocation alloc] init];
+    location2.time = [NSDate dateWithTimeIntervalSince1970:nowTimestamp - 50];
+    location2.orderId = @42;
+    location2.ongoing = @0;
+    location2.latitude = @2.0;
+    location2.longitude = @2.0;
+    location2.provider = @"TEST";
+    
+    MAURLocation *location3 = [[MAURLocation alloc] init];
+    location3.time = [NSDate dateWithTimeIntervalSince1970:nowTimestamp - 10];
+    location3.orderId = @99; // different orderId
+    location3.ongoing = @0;
+    location3.latitude = @3.0;
+    location3.longitude = @3.0;
+    location3.provider = @"TEST";
+    
+    [locationDAO persistLocation:location1];
+    [locationDAO persistLocation:location2];
+    [locationDAO persistLocation:location3];
+
+    int timeStart = nowTimestamp - 60; // will include location2
+    int timeEnd = nowTimestamp - 40;
+
+    NSError *error = nil;
+    BOOL success = [locationDAO updateLocationsToOngoingWithOrderId:42
+                                                          timeStart:timeStart
+                                                            timeEnd:timeEnd
+                                                              error:&error];
+    XCTAssertTrue(success, @"Update should succeed");
+    XCTAssertNil(error, @"Error should be nil");
+
+    NSArray<MAURLocation *> *allLocations = [locationDAO getAllLocations];
+    
+    // find updated location2
+    MAURLocation *updatedLocation2 = nil;
+    for (MAURLocation *loc in allLocations) {
+        if ([loc.latitude isEqualToNumber:@2.0]) {
+            updatedLocation2 = loc;
+            break;
+        }
+    }
+    
+    XCTAssertNotNil(updatedLocation2, @"Should find updated location");
+    XCTAssertEqualObjects(updatedLocation2.ongoing, @1, @"Location should be marked ongoing");
+}
+
 - (void)testGetAllLocations {
     MAURSQLiteLocationDAO *locationDAO = [MAURSQLiteLocationDAO sharedInstance];
     MAURLocation *location;

@@ -35,6 +35,10 @@
 - (NSArray<MAURLocation*>*) getValidLocationsAndDelete;
 - (BOOL) deleteLocation:(NSNumber*)locationId error:(NSError * __autoreleasing *)outError;
 - (BOOL) deleteAllLocations:(NSError * __autoreleasing *)outError;
+- (BOOL)updateLocationsToOngoingWithOrderId:(NSInteger)orderId
+                                  timeStart:(NSInteger)timeStart
+                                    timeEnd:(NSInteger)timeEnd
+                                      error:(NSError * __autoreleasing *)outError;
 - (MAURLocation*)getCurrentLocation:(int)timeout maximumAge:(long)maximumAge
                  enableHighAccuracy:(BOOL)enableHighAccuracy
                               error:(NSError * __autoreleasing *)outError;

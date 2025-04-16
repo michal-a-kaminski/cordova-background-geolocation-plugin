@@ -319,6 +319,46 @@
     return success;
 }
 
+- (BOOL)updateLocationsToOngoingWithOrderId:(NSInteger)orderId
+                                   timeStart:(NSInteger)timeStart
+                                     timeEnd:(NSInteger)timeEnd
+                                       error:(NSError * __autoreleasing *)outError
+{
+    __block BOOL success;
+    
+    NSString *sql = [NSString stringWithFormat:@"UPDATE %@ SET %@ = ? WHERE %@ = ? AND %@ >= ? AND %@ <= ?",
+                     @LC_TABLE_NAME,
+                     @LC_COLUMN_NAME_ONGOING,
+                     @LC_COLUMN_NAME_ORDER_ID,
+                     @LC_COLUMN_NAME_DATE,
+                     @LC_COLUMN_NAME_DATE];
+    
+    [queue inDatabase:^(FMDatabase *database) {
+        if ([database executeUpdate:sql,
+             @(1),                  // Set ongoing = 1
+             @(orderId),
+             @(timeStart),
+             @(timeEnd)]) {
+            success = YES;
+        } else {
+            int errorCode = [database lastErrorCode];
+            NSString *errorMessage = [database lastErrorMessage];
+            NSLog(@"Updating locations failed code: %d: message: %@", errorCode, errorMessage);
+            
+            if (outError != NULL) {
+                NSDictionary *errorDictionary = @{
+                    NSLocalizedDescriptionKey: NSLocalizedString(errorMessage, nil)
+                };
+                *outError = [NSError errorWithDomain:Domain code:errorCode userInfo:errorDictionary];
+            }
+            
+            success = NO;
+        }
+    }];
+    
+    return success;
+}
+
 - (BOOL) clearDatabase
 {
     __block BOOL success;

@@ -274,6 +274,30 @@ static NSString * const TAG = @"CDVBackgroundGeolocation";
     }];
 }
 
+- (void)updateLocationsToOngoing:(CDVInvokedUrlCommand*)command
+{
+    NSLog(@"%@ #%@", TAG, @"updateLocationsToOngoing");
+    [self.commandDelegate runInBackground:^{
+        NSError *error = nil;
+        int orderId = [[command.arguments objectAtIndex:0] intValue];
+        int timeStart = [[command.arguments objectAtIndex:1] intValue];
+        int timeEnd = [[command.arguments objectAtIndex:2] intValue];
+        BOOL success = [facade updateLocationsToOngoingWithOrderId:orderId
+                                                         timeStart:timeStart
+                                                           timeEnd:timeEnd
+                                                             error:&error];
+
+        CDVPluginResult *result;
+        if (success) {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+        } else {
+            result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR
+                                  messageAsDictionary:[self errorToDictionary:error]];
+        }
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+    }];
+}
+
 - (void) getCurrentLocation:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"%@ #%@", TAG, @"getCurrentLocation");

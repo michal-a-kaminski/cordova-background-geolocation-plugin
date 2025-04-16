@@ -367,6 +367,18 @@ FMDBLogger *sqliteLogger;
     return [locationDAO deleteAllLocations:outError];
 }
 
+- (BOOL)updateLocationsToOngoingWithOrderId:(NSInteger)orderId
+                                  timeStart:(NSInteger)timeStart
+                                    timeEnd:(NSInteger)timeEnd
+                                      error:(NSError * __autoreleasing *)outError
+{
+    MAURSQLiteLocationDAO *locationDAO = [MAURSQLiteLocationDAO sharedInstance];
+    return [locationDAO updateLocationsToOngoingWithOrderId:orderId
+                                                  timeStart:timeStart
+                                                    timeEnd:timeEnd
+                                                      error:outError];
+}
+
 - (MAURLocation*)getCurrentLocation:(int)timeout maximumAge:(long)maximumAge
                  enableHighAccuracy:(BOOL)enableHighAccuracy
                               error:(NSError * __autoreleasing *)outError

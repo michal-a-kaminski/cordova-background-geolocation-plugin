@@ -26,6 +26,10 @@
 - (NSNumber*) persistLocation:(MAURLocation*)location limitRows:(NSInteger)maxRows;
 - (BOOL) deleteLocation:(NSNumber*)locationId error:(NSError * __autoreleasing *)outError;
 - (BOOL) deleteAllLocations:(NSError * __autoreleasing *)outError;
+- (BOOL)updateLocationsToOngoingWithOrderId:(NSInteger)orderId
+                                  timeStart:(NSInteger)timeStart
+                                    timeEnd:(NSInteger)timeEnd
+                                      error:(NSError * __autoreleasing *)outError;
 - (BOOL) clearDatabase;
 - (NSString*) getDatabaseName;
 - (NSString*) getDatabasePath;
