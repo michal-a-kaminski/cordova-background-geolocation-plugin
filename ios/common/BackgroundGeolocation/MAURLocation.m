@@ -84,6 +84,7 @@ MAURConfig *_config;
     instance.altitude = [NSNumber numberWithDouble:location.altitude];
     instance.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
     instance.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
+    instance.provider = [self gpsQualityForLocation:location];
 
     return instance;
 }
@@ -407,6 +408,19 @@ MAURConfig *_config;
     }
 
     return copy;
+}
+
+- (NSString *)gpsQualityForLocation:(CLLocation *)location {
+    if (location == nil || location.horizontalAccuracy < 0) {
+        return @"bledna lub init"; // invalid location or still initializing
+    }
+
+    CLLocationAccuracy accuracy = location.horizontalAccuracy;
+    NSString *qualityLabel;
+    qualityLabel = @"IOS dokladnosc: ";
+ 
+
+    return [NSString stringWithFormat:@"%@ (%.1fm)", qualityLabel, accuracy];
 }
 
 @end

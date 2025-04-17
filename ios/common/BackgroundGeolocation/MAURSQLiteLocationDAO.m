@@ -330,8 +330,8 @@
                      @LC_TABLE_NAME,
                      @LC_COLUMN_NAME_ONGOING,
                      @LC_COLUMN_NAME_ORDER_ID,
-                     @LC_COLUMN_NAME_DATE,
-                     @LC_COLUMN_NAME_DATE];
+                     @LC_COLUMN_NAME_TIME,
+                     @LC_COLUMN_NAME_TIME];
     
     [queue inDatabase:^(FMDatabase *database) {
         if ([database executeUpdate:sql,
