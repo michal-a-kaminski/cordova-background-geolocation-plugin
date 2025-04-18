@@ -85,7 +85,6 @@ MAURConfig *_config;
     instance.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
     instance.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
     NSString *providerValue = [self gpsQualityForLocation:location];
-    NSLog(@"Provider Value: %@", providerValue);
     instance.provider = providerValue;
 
     return instance;
@@ -419,7 +418,7 @@ MAURConfig *_config;
 
     CLLocationAccuracy accuracy = location.horizontalAccuracy;
     NSString *qualityLabel;
-    qualityLabel = @"IOS dokladnosc: ";
+    qualityLabel = @"IOS acc:";
  
 
     return [NSString stringWithFormat:@"%@ (%.1fm)", qualityLabel, accuracy];
