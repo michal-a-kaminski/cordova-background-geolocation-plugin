@@ -412,7 +412,7 @@ MAURConfig *_config;
     return copy;
 }
 
-- (NSString *)gpsQualityForLocation:(CLLocation *)location {
++ (NSString *)gpsQualityForLocation:(CLLocation *)location {
     if (location == nil || location.horizontalAccuracy < 0) {
         return @"bledna lub init"; // invalid location or still initializing
     }
