@@ -35,7 +35,7 @@
 - (NSArray<MAURLocation*>*) getValidLocationsAndDelete;
 - (BOOL) deleteLocation:(NSNumber*)locationId error:(NSError * __autoreleasing *)outError;
 - (BOOL) deleteAllLocations:(NSError * __autoreleasing *)outError;
-- (BOOL)updateLocationsToOngoingWithOrderId:(NSInteger)orderId
+- (BOOL)updateLocationsToOngoingInGivenOrderAndTimeRange:(NSInteger)orderId
                                   timeStart:(NSInteger)timeStart
                                     timeEnd:(NSInteger)timeEnd
                                       error:(NSError * __autoreleasing *)outError;

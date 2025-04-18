@@ -274,7 +274,7 @@ static NSString * const TAG = @"CDVBackgroundGeolocation";
     }];
 }
 
-- (void)updateLocationsToOngoing:(CDVInvokedUrlCommand*)command
+- (void)updateLocationsToOngoingInGivenOrderAndTimeRange:(CDVInvokedUrlCommand*)command
 {
     NSLog(@"%@ #%@", TAG, @"updateLocationsToOngoing");
     [self.commandDelegate runInBackground:^{
@@ -282,7 +282,7 @@ static NSString * const TAG = @"CDVBackgroundGeolocation";
         int orderId = [[command.arguments objectAtIndex:0] intValue];
         int timeStart = [[command.arguments objectAtIndex:1] intValue];
         int timeEnd = [[command.arguments objectAtIndex:2] intValue];
-        BOOL success = [facade updateLocationsToOngoingWithOrderId:orderId
+        BOOL success = [facade updateLocationsToOngoingInGivenOrderAndTimeRange:orderId
                                                          timeStart:timeStart
                                                            timeEnd:timeEnd
                                                              error:&error];

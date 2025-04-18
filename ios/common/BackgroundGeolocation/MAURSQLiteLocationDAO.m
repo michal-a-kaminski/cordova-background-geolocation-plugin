@@ -319,7 +319,7 @@
     return success;
 }
 
-- (BOOL)updateLocationsToOngoingWithOrderId:(NSInteger)orderId
+- (BOOL)updateLocationsToOngoingInGivenOrderAndTimeRange:(NSInteger)orderId
                                    timeStart:(NSInteger)timeStart
                                      timeEnd:(NSInteger)timeEnd
                                        error:(NSError * __autoreleasing *)outError
