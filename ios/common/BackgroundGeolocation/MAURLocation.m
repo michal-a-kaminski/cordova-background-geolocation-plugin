@@ -84,7 +84,9 @@ MAURConfig *_config;
     instance.altitude = [NSNumber numberWithDouble:location.altitude];
     instance.latitude = [NSNumber numberWithDouble:location.coordinate.latitude];
     instance.longitude = [NSNumber numberWithDouble:location.coordinate.longitude];
-    instance.provider = [self gpsQualityForLocation:location];
+    NSString *providerValue = [self gpsQualityForLocation:location];
+    NSLog(@"Provider Value: %@", providerValue);
+    instance.provider = providerValue;
 
     return instance;
 }
