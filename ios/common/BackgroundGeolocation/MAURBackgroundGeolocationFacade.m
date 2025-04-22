@@ -270,7 +270,13 @@ FMDBLogger *sqliteLogger;
 
 - (MAURLocationAuthorizationStatus) authorizationStatus
 {
-    CLAuthorizationStatus authStatus = [CLLocationManager authorizationStatus];
+    CLLocationManager *locationManager = [[CLLocationManager alloc] init];
+    CLAuthorizationStatus authStatus;
+    if (@available(iOS 14.0, *)) {
+        authStatus = locationManager.authorizationStatus;
+    } else {
+        authStatus = [CLLocationManager authorizationStatus];
+    }
     switch (authStatus) {
         case kCLAuthorizationStatusNotDetermined:
             return MAURLocationAuthorizationNotDetermined;
