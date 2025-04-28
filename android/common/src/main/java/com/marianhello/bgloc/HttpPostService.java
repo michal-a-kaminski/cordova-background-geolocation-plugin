@@ -40,6 +40,8 @@ public class HttpPostService {
     private HttpURLConnection openConnection() throws IOException {
         if (mHttpURLConnection == null) {
             mHttpURLConnection = (HttpURLConnection) new URL(mUrl).openConnection();
+            mHttpURLConnection.setConnectTimeout(10000); // 10 sekund na połączenie
+            mHttpURLConnection.setReadTimeout(10000);    // 10 sekund na odpowiedź
         }
         return mHttpURLConnection;
     }
