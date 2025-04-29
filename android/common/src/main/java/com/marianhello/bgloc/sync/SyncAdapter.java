@@ -146,8 +146,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpPost
         if (notificationsEnabled) {
             builder = new NotificationCompat.Builder(getContext(), NotificationHelper.SYNC_CHANNEL_ID);
             builder.setOngoing(true);
-            builder.setContentTitle("Syncing locations");
-            builder.setContentText("Sync in progress");
+            builder.setContentTitle("Synchronizowanie lokalizacji");
+            builder.setContentText("W trakcie synchronizowania lokalizacji");
             builder.setSmallIcon(android.R.drawable.ic_dialog_info);
             notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
@@ -176,9 +176,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpPost
 
             if (builder != null) {
                 if (isStatusOkay) {
-                    builder.setContentText("Sync completed");
+                    builder.setContentText("Synchronizacja lokalizacji zakończona");
                 } else {
-                    builder.setContentText("Sync failed due server error");
+                    builder.setContentText("Błąd serwera - Synchronizacji lokalizacji nieudana");
                 }
             }
 
@@ -187,7 +187,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpPost
             logger.warn("Error uploading locations: {}", e.getMessage());
 
             if (builder != null)
-                builder.setContentText("Sync failed: " + e.getMessage());
+                builder.setContentText("Synchronizacji lokalizacji nieudana: " + e.getMessage());
         } finally {
             logger.info("Syncing endAt: {}", System.currentTimeMillis());
 
@@ -217,8 +217,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpPost
         if (notificationsEnabled) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), NotificationHelper.SYNC_CHANNEL_ID);
             builder.setOngoing(true);
-            builder.setContentTitle("Syncing locations");
-            builder.setContentText("Sync in progress");
+            builder.setContentTitle("Synchronizowanie lokalizacji");
+            builder.setContentText("W trakcie synchronizowania lokalizacji");
             builder.setSmallIcon(android.R.drawable.ic_dialog_info);
             builder.setProgress(100, progress, false);
             notificationManager.notify(NOTIFICATION_ID, builder.build());

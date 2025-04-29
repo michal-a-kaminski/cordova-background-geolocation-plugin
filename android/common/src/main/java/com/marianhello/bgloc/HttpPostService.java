@@ -33,17 +33,16 @@ public class HttpPostService {
         mUrl = url;
     }
 
-    public HttpPostService(final HttpURLConnection httpURLConnection) {
+    public HttpPostService(final HttpURLConnection httpURLConnection) { //zostawione dla testow
         mHttpURLConnection = httpURLConnection;
     }
 
-    private HttpURLConnection openConnection() throws IOException {
-        if (mHttpURLConnection == null) {
-            mHttpURLConnection = (HttpURLConnection) new URL(mUrl).openConnection();
-            mHttpURLConnection.setConnectTimeout(10000); // 10 sekund na połączenie
-            mHttpURLConnection.setReadTimeout(10000);    // 10 sekund na odpowiedź
-        }
-        return mHttpURLConnection;
+    private HttpURLConnection openConnection() throws IOException { 
+        HttpURLConnection conn = (HttpURLConnection) new URL(mUrl).openConnection();
+        conn.setConnectTimeout(15000); // 15 sekund na połączenie
+        conn.setReadTimeout(30000);    // 30 sekund na odpowiedź
+
+        return conn;
     }
 
     public int postJSON(JSONObject json, Map headers) throws IOException {
