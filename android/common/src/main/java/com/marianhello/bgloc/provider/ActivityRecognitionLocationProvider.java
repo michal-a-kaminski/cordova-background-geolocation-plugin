@@ -5,10 +5,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.Manifest;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import androidx.core.app.ActivityCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -49,10 +52,12 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
     public void onCreate() {
         super.onCreate();
 
-        Intent detectedActivitiesIntent = new Intent(DETECTED_ACTIVITY_UPDATE);
+        Intent detectedActivitiesIntent = new Intent(mContext, DetectedActivitiesReceiver.class);
+        detectedActivitiesIntent.setAction(DETECTED_ACTIVITY_UPDATE);
+
         int updateCurrentFlag = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-                ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE
-                : PendingIntent.FLAG_UPDATE_CURRENT;
+                    ? PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE
+                    : PendingIntent.FLAG_UPDATE_CURRENT;
         detectedActivitiesPI = PendingIntent.getBroadcast(mContext, 9002, detectedActivitiesIntent, updateCurrentFlag);
         registerReceiver(detectedActivitiesReceiver, new IntentFilter(DETECTED_ACTIVITY_UPDATE));
     }
@@ -145,13 +150,17 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
         }
     }
 
+    private boolean activityRecognitionPermitted() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED;
+    }
+
     private void attachRecorder() {
         if (googleApiClient == null) {
             connectToPlayAPI();
         } else if (googleApiClient.isConnected()) {
             if (isWatchingActivity) { return; }
             startTracking();
-            if (mConfig.getStopOnStillActivity()) {
+            if (mConfig.getStopOnStillActivity() && activityRecognitionPermitted()) {
                 ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(
                         googleApiClient,
                         mConfig.getActivitiesInterval(),
@@ -233,7 +242,7 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
         return mostLikelyActivity;
     }
 
-    private BroadcastReceiver detectedActivitiesReceiver = new BroadcastReceiver() {
+    private class DetectedActivitiesReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
             ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
@@ -256,7 +265,9 @@ public class ActivityRecognitionLocationProvider extends AbstractLocationProvide
             }
             //else do nothing
         }
-    };
+    }
+
+    private BroadcastReceiver detectedActivitiesReceiver = new DetectedActivitiesReceiver();
 
     @Override
     public void onDestroy() {

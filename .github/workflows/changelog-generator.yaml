@@ -3,16 +3,20 @@ name: changelog-generator
 on:
   push:
     branches: [stable]
-
+  workflow_run:
+    workflows: ["Publish Release"]
+    types: 
+      - completed
+  workflow_dispatch:
 jobs:
   generate_changelog:
 
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Generate changelog
-      uses: heinrichreimer/action-github-changelog-generator@v2.2
+      uses: heinrichreimer/action-github-changelog-generator@v2.4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         sinceTag: '1.0.0-rc.1'
@@ -23,7 +27,7 @@ jobs:
         unreleased: true
         author: true
         addSections: '{"documentation":{"prefix":"**Documentation:**","labels":["documentation"]}}'
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    - uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: Update Changelog
         file_pattern: CHANGELOG.md
